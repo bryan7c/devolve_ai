@@ -1,17 +1,17 @@
 import {
-  getDevolucao,
-  criarDevolucao,
-} from "@/pages/api/controllers/devolucaoController";
+  getDevolvedor,
+  criarDevolvedor
+} from "@/pages/api/controllers/devolvedorController";
 
 export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
     case "GET":
-      getDevolucao(req, res);
+      getDevolvedor(req, res);
       break;
     case "POST":
-      criarDevolucao(req, res);
+      criarDevolvedor(req, res);
       break;
     default:
       res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);

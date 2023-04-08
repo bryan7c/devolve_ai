@@ -19,7 +19,11 @@ const devolucaoSchema = new mongoose.Schema({
   },
   devolvedor: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Devolvedor'
+    ref: 'Devolvedor',
+  },
+  usuario: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Usuario',
   }
 });
 
