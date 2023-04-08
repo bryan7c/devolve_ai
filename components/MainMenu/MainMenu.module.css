@@ -1,0 +1,59 @@
+.nav {
+  grid-area: menu;
+  background-color: #04416D;
+  color: #fff;
+}
+
+.item {
+    text-decoration: none;
+    list-style: none;
+}
+
+  .menu {
+    width: 300px;
+    height: 100vh;
+    background-color: #333;
+    position: fixed;
+    left: -250px;
+    transition: left 0.3s ease-in-out;
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: -50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .line {
+    width: 100%;
+    height: 5px;
+    background-color: white;
+  }
+
+  .items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+  }
+
+  .items li {
+    margin-bottom: 20px;
+  }
+
+  .items li a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+  }
+
+  .items li a i {
+    margin-right: 10px;
+  }
