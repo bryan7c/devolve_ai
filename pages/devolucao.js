@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import styles from '@/styles/Devolucao.module.css'
+import { formatDate } from "@/utils/date";
 
 const DevolucoesPage = () => {
   const [devolucoes, setDevolucoes] = useState([]);
@@ -16,17 +18,17 @@ const DevolucoesPage = () => {
   return (
     <div>
       <h1>Devoluções</h1>
-      <ul>
+      <div className="card-list">
         {devolucoes.map((devolucao) => (
-          <li key={devolucao._id}>
-            <p>Nome do devolvedor: {devolucao.devolvedor.nome}</p>
-            <p>Status: {devolucao.status}</p>
-            <p>Data limite: {devolucao.dataLimite}</p>
-            <p>Valor: {devolucao.valor}</p>
-            <p>Local de devolução: {devolucao.localDevolucao}</p>
-          </li>
+          <div className = {styles.card} key={devolucao._id}>
+            <h2 className = {styles.local}>{devolucao.localDevolucao}</h2>
+            <div className = {styles.status}>{devolucao.status}</div>
+            <p className = {styles.data}>{formatDate(devolucao.dataLimite)}</p>
+            <p className = {styles.valor}>R$ {devolucao.valor}</p>
+            <button className = {styles.editar}><i class="fas fa-pencil-alt"></i></button>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
