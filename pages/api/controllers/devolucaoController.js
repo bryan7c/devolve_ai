@@ -1,5 +1,6 @@
 import Devolucao from "@/pages/api/model/devolucao";
 import Devolvedor from "@/pages/api/model/devolvedor";
+import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
   async criarDevolucao(req, res) {
@@ -120,7 +121,7 @@ module.exports = {
 
     // Busca pelo id do usuario
     if (usuarioId) {
-      const usuario = await Devolvedor.findById(usuarioId);
+      const usuario = await Usuario.findById(usuarioId);
       if (usuario) {
         query.usuario = usuario._id;
       } else {

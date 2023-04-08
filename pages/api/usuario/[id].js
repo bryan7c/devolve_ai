@@ -1,14 +1,14 @@
-import { atualizarDevolucao, excluirDevolucao } from '@/pages/api/controllers/devolucaoController';
+import { atualizarUsuario, excluirUsuario } from '@/pages/api/controllers/usuarioController';
 
 export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
     case 'PUT':
-      atualizarDevolucao(req, res);
+      atualizarUsuario(req, res);
       break;
     case 'DELETE':
-      excluirDevolucao(req, res);
+      excluirUsuario(req, res);
       break;
     default:
       res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);

@@ -1,12 +1,9 @@
-import { getDevolvedorById, atualizarDevolvedor, excluirDevolvedor } from '@/pages/api/controllers/devolvedorController';
+import { atualizarDevolvedor, excluirDevolvedor } from '@/pages/api/controllers/devolvedorController';
 
 export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
-    case 'GET':
-      getDevolvedorById(req, res);
-      break;
     case 'PUT':
       atualizarDevolvedor(req, res);
       break;
