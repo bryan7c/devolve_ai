@@ -1,10 +1,20 @@
+.container {
+  grid-area: main;
+}
+.cardList {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .card {
     background-color: #fff;
-    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
     position: relative;
     width: 300px;
+    margin: 10px;
   }
   
   .local {
@@ -20,21 +30,6 @@
     margin-right: 5px;
     padding: 5px 10px;
     text-transform: uppercase;
-  }
-  
-  .aguardando {
-    background-color: #ffcc00;
-    color: #fff;
-  }
-  
-  .em-andamento {
-    background-color: #0077b5;
-    color: #fff;
-  }
-  
-  .finalizado {
-    background-color: #1abc9c;
-    color: #fff;
   }
   
   .data-limite {

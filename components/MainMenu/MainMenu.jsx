@@ -7,17 +7,17 @@ export default function MainMenu() {
 
   function toggleMenu() {
     const menu = menuRef.current;
-    if (menu.style.left === "-300px") {
+    if (menu.style.left === "-250px") {
       menu.style.left = "0";
     } else {
-      menu.style.left = "-300px";
+      menu.style.left = "-250px";
     }
   }
 
   const menuList = ["Início", "Perfil", "Mensagens", "Configurações"];
 
   return (
-    <div ref={menuRef} className={style.menu}>
+    <aside ref={menuRef} className={style.menu}>
       <div className={style.icon} onClick={toggleMenu}>
         <span className={style.line}></span>
         <span className={style.line}></span>
@@ -32,6 +32,6 @@ export default function MainMenu() {
           </li>
         ))}
       </ul>
-    </div>
+    </aside>
   );
 }
