@@ -1,5 +1,4 @@
 .main {
   background-color: var(--color-white);
-  grid-area: header;
   border-bottom: 0.5px solid var(--color-gray);
 }

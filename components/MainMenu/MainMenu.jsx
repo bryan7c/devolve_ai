@@ -1,33 +1,23 @@
 import { useRef } from "react";
 import Link from "next/link";
 import style from "./MainMenu.module.css";
+import { CallMissedOutgoing, Home } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 export default function MainMenu() {
-  const menuRef = useRef(null);
 
-  function toggleMenu() {
-    const menu = menuRef.current;
-    if (menu.style.left === "-250px") {
-      menu.style.left = "0";
-    } else {
-      menu.style.left = "-250px";
-    }
-  }
-
-  const menuList = ["Início", "Perfil", "Mensagens", "Configurações"];
+  const menuList = [
+    {icon: <Home />,url: "/", label: "Home"},
+    {icon: <CallMissedOutgoing  />,url: "/devolucao", label: "Devoluções"}
+  ];
 
   return (
-    <aside ref={menuRef} className={style.menu}>
-      <div className={style.icon} onClick={toggleMenu}>
-        <span className={style.line}></span>
-        <span className={style.line}></span>
-        <span className={style.line}></span>
-      </div>
+    <aside className={style.menu}>
       <ul className={style.items}>
         {menuList.map((item, index) => (
           <li key={index}>
-            <Link href="/">
-              <i className="fas fa-home"></i> {item}
+            <Link href={item.url}>
+              <Button variant="text" fullWidth={true} size="medium" startIcon={item.icon}>{item.label}</Button>
             </Link>
           </li>
         ))}
