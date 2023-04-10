@@ -1,10 +1,10 @@
 .container {
-  display: grid;
+  /* display: grid;
   height: 100vh;
   grid-template-areas:
     'header header header header header header'
     'menu main main main main main'
     'menu footer footer footer footer footer';
   grid-template-rows: 50px auto 50px;
-  grid-template-columns: 50px auto auto;
+  grid-template-columns: 50px auto auto; */
 }

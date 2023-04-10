@@ -1,8 +1,15 @@
+import * as React from "react";
 import { useState, useEffect } from "react";
-import { formatDate } from "@/utils/date";
 import Head from "next/head";
-import devolucaoStyle from "@/styles/Devolucao.module.css";
+import { formatDate } from "@/utils/date";
 import { InternalLayout } from "@/layout/internalLayout";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardContent from "@mui/material/CardContent";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import devolucaoStyle from "@/styles/Devolucao.module.css";
 
 function DevolucoesPage() {
   const [devolucoes, setDevolucoes] = useState([]);
@@ -25,7 +32,26 @@ function DevolucoesPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={devolucaoStyle.container}>
+      {devolucoes.map((devolucao) => (
+        <Card sx={{ maxWidth: 345 }} key={devolucao._id}>
+          <CardHeader
+          className={devolucaoStyle.MuiCardHeaderRoot}
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={devolucao.localDevolucao}
+            subheader={`R$ ${devolucao.valor}`}
+          />
+          <CardContent>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {formatDate(devolucao.dataLimite)}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
+      {/* <div className={devolucaoStyle.container}>
         <h1>Devoluções</h1>
         <div className={devolucaoStyle.cardList}>
           {devolucoes.map((devolucao) => (
@@ -44,10 +70,10 @@ function DevolucoesPage() {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </>
   );
-};
+}
 
 DevolucoesPage.PageLayout = InternalLayout;
 

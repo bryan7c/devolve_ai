@@ -6,7 +6,7 @@ export function InternalLayout({ children }) {
     return (
       <main className={styles.container}>
         <Header />
-        <MainMenu />
+        {/* <MainMenu /> */}
         {children}
     </main>
     );
