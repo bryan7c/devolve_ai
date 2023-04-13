@@ -2,14 +2,24 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import {
+  AppBar,
+  Box,
   Button,
+  Card,
+  CardContent,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
   Grid,
+  IconButton,
+  InputBase,
   MenuItem,
+  Paper,
+  Toolbar,
 } from "@mui/material";
 import {
   deleteReturnedItem,
@@ -17,11 +27,23 @@ import {
 } from "@/src/services/ReturnedService";
 import CardReturnedItem from "@/src/components/CardReturnedItem/CardReturnedItem";
 import ActionMenu from "@/src/components/ActionMenu/ActionMenu";
+import { Directions, Search } from "@mui/icons-material";
 
 function ReturnedPage() {
   const [returnedList, setReturnedList] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedReturnedItemId, setSelectedReturnedItemId] = useState(null);
+
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    // aqui você pode utilizar o valor digitado pelo usuário
+    console.log(searchValue);
+  };
 
   const handleDeleteConfirmation = (returnedItemId) => {
     setSelectedReturnedItemId(returnedItemId);
@@ -66,6 +88,31 @@ function ReturnedPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Paper
+        component="form"
+        sx={{
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+          marginBottom: 2,
+        }}
+      >
+        <InputBase
+          sx={{ ml: 1, flex: 1 }}
+          placeholder="Pesquisar devolução"
+          inputProps={{ "aria-label": "search google maps" }}
+          value={searchValue}
+        onChange={handleSearchChange}
+        />
+        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+          <Search />
+        </IconButton>
+        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+        <input type="date" className="form-control" />
+        <Chip color="primary" onClick={function () {}} size="small" sx={{width: 40}} variant="solid" />
+        <Chip color="warning" onClick={function () {}} size="small" sx={{width: 40}} variant="solid" />
+        <Chip color="success" onClick={function () {}} size="small" sx={{width: 40}} variant="solid" />
+      </Paper>
       <Grid container spacing={2}>
         {returnedList.map((returnedItem) => (
           <CardReturnedItem
