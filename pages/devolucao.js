@@ -1,20 +1,43 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import { InternalLayout } from "@/layout/internalLayout";
-import { Grid, MenuItem } from "@mui/material";
-import CardReturnedItem from "@/components/CardReturnedItem/CardReturnedItem";
-import ActionMenu from "@/components/ActionMenu/ActionMenu";
-import { deleteReturnedItem, getReturnedItems } from "@/services/ReturnedService";
+import { InternalLayout } from "@/src/layout/internalLayout";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  MenuItem,
+} from "@mui/material";
+import {
+  deleteReturnedItem,
+  getReturnedItems,
+} from "@/src/services/ReturnedService";
+import CardReturnedItem from "@/src/components/CardReturnedItem/CardReturnedItem";
+import ActionMenu from "@/src/components/ActionMenu/ActionMenu";
 
 function ReturnedPage() {
   const [returnedList, setReturnedList] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [selectedReturnedItemId, setSelectedReturnedItemId] = useState(null);
+
+  const handleDeleteConfirmation = (returnedItemId) => {
+    setSelectedReturnedItemId(returnedItemId);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setSelectedReturnedItemId(null);
+    setOpen(false);
+  };
 
   useEffect(() => {
     async function fetchReturned() {
-      getReturnedItems()
-      .then((data) => {
+      getReturnedItems().then((data) => {
         setReturnedList(data);
-      })
+      });
     }
 
     fetchReturned();
@@ -24,12 +47,15 @@ function ReturnedPage() {
     alert(`Editando devolução ${returnedItemId}`);
   };
 
-  const handleDelete = (returnedItemId) => {
-    alert(`Deletando devolução ${returnedItemId}`);
-    // deleteReturnedItem(returnedItemId)
-    // .then(() => {
-    //   setReturnedList(returnedList.filter(returnedItem => returnedItem._id !== returnedItemId));
-    // });
+  const handleDelete = () => {
+    deleteReturnedItem(selectedReturnedItemId).then(() => {
+      setReturnedList(
+        returnedList.filter(
+          (returnedItem) => returnedItem._id !== selectedReturnedItemId
+        )
+      );
+      handleClose();
+    });
   };
 
   return (
@@ -50,7 +76,9 @@ function ReturnedPage() {
                 <MenuItem onClick={() => handleEdit(returnedItem._id)}>
                   Editar
                 </MenuItem>
-                <MenuItem onClick={() => handleDelete(returnedItem._id)}>
+                <MenuItem
+                  onClick={() => handleDeleteConfirmation(returnedItem._id)}
+                >
                   Excluir
                 </MenuItem>
               </ActionMenu>
@@ -58,6 +86,28 @@ function ReturnedPage() {
           />
         ))}
       </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Deletar devolução?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza que deseja excluir este item?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button onClick={handleDelete} autoFocus>
+            Deletar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

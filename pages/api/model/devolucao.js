@@ -1,4 +1,4 @@
-import mongoose from '@/database';
+import mongoose from '@/src/database';
 
 const devolucaoSchema = new mongoose.Schema({
   localDevolucao: {

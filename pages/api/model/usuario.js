@@ -1,4 +1,4 @@
-import mongoose from '@/database';
+import mongoose from '@/src/database';
 
 const usuarioSchema = new mongoose.Schema({
   nome: {

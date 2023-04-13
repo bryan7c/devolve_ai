@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import { InternalLayout } from '@/layout/internalLayout'
+import { InternalLayout } from '@/src/layout/internalLayout'
 import { Button } from '@mui/material'
 
 const inter = Inter({ subsets: ['latin'] })
