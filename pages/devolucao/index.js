@@ -8,24 +8,32 @@ import ActionMenu from "@/src/components/ActionMenu/ActionMenu";
 import { Search } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/pt-br';
 
 function ReturnedPage() {
+  const [originalReturnedList, setOriginalReturnedList] = useState([]);
   const [returnedList, setReturnedList] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedReturnedItemId, setSelectedReturnedItemId] = useState(null);
-
   const [searchValue, setSearchValue] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
 
   const handleSearchSubmit = () => {
-    setReturnedList(
-      returnedList.filter((returnedItem) =>
-        returnedItem.localDevolucao.toLowerCase().includes(searchValue.toLowerCase())
-      )
-    )
+    if (searchValue === "") {
+      // Se o valor de pesquisa estiver vazio, exiba todas as devoluções
+      setReturnedList(originalReturnedList);
+    } else {
+      // Caso contrário, filtre as devoluções com base no valor de pesquisa
+      setReturnedList(
+        originalReturnedList.filter((returnedItem) =>
+          returnedItem.localDevolucao.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }
   };
 
   const handleDeleteConfirmation = (returnedItemId) => {
@@ -40,12 +48,13 @@ function ReturnedPage() {
 
   useEffect(() => {
     async function fetchReturned() {
-      getReturnedItems().then((data) => {
-        setReturnedList(data);
-      });
-    }
+    getReturnedItems().then((data) => {
+      setOriginalReturnedList(data);
+      setReturnedList(data);
+    });
+  }
 
-    fetchReturned();
+  fetchReturned();
   }, []);
 
   const handleEdit = (returnedItemId) => {
@@ -54,6 +63,11 @@ function ReturnedPage() {
 
   const handleDelete = () => {
     deleteReturnedItem(selectedReturnedItemId).then(() => {
+      setOriginalReturnedList(
+        originalReturnedList.filter(
+          (returnedItem) => returnedItem._id !== selectedReturnedItemId
+        )
+      );
       setReturnedList(
         returnedList.filter(
           (returnedItem) => returnedItem._id !== selectedReturnedItemId
@@ -61,6 +75,37 @@ function ReturnedPage() {
       );
       handleClose();
     });
+  };
+
+  
+  const handleStatusFilter = (status) => {
+    if (statusFilter === status) {
+      setStatusFilter("");
+      // Se o valor de pesquisa estiver vazio, exiba todas as devoluções
+      setReturnedList(originalReturnedList);
+    } else {
+      // Caso contrário, filtre as devoluções com base no valor de pesquisa
+      setReturnedList(
+        originalReturnedList.filter(returnedItem =>
+          returnedItem.status.toLowerCase() === status.toLowerCase()
+        )
+      );
+    }
+    setStatusFilter(status);
+  };
+
+  const handleDateFilter = (date) => {
+    const dataLimite = new Date(date).getTime();
+    if (date === null) {
+      setReturnedList(originalReturnedList);
+    } else {
+      setReturnedList(
+        originalReturnedList.filter(returnedItem =>{
+          const itemDate = new Date(returnedItem.dataLimite).getTime();
+          return itemDate <= dataLimite;
+        })
+      );
+    }
   };
 
   return (
@@ -95,27 +140,30 @@ function ReturnedPage() {
           }}
         />
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Basic date picker" />
+        <LocalizationProvider dateAdapter={AdapterDayjs}  adapterLocale="pt-br">
+          <DatePicker label="Data limite" onChange={(newDate) => handleDateFilter(newDate)}/>
         </LocalizationProvider>
         <Chip
           color="info"
-          onClick={function () {}}
+          onClick={event => handleStatusFilter(event.target.dataset.status)}
           size="small"
+          data-status="Em andamento"
           sx={{ height: 20, width: 40, margin: '0 .3em' }}
           variant="solid"
         />
         <Chip
           color="secondary"
-          onClick={function () {}}
+          onClick={event => handleStatusFilter(event.target.dataset.status)}
           size="small"
+          data-status="Aguardando"
           sx={{ height: 20, width: 40, margin: '0 .3em' }}
           variant="solid"
         />
         <Chip
           color="success"
-          onClick={function () {}}
+          onClick={event => handleStatusFilter(event.target.dataset.status)}
           size="small"
+          data-status="Finalizado"
           sx={{ height: 20, width: 40, margin: '0 .3em' }}
           variant="solid"
         />

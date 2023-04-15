@@ -86,12 +86,12 @@ module.exports = {
   async getDevolucao(req, res) {
     const {
       status,
-      valorMax,
+      valor,
       localDevolucao,
       dataInicial,
-      dataFinal,
-      devolvedorId,
-      usuarioId,
+      dataLimite,
+      devolvedor,
+      usuario,
       id,
     } = req.query;
 
@@ -103,27 +103,27 @@ module.exports = {
       : new Date("1970-01-01");
 
     // Define a data final com um valor muito grande se não tiver sido passada
-    const dataFinalFiltrada = dataFinal
-      ? new Date(dataFinal)
+    const dataFinalFiltrada = dataLimite
+      ? new Date(dataLimite)
       : new Date("2100-01-01");
 
     query.dataLimite = { $gte: dataInicialFiltrada, $lte: dataFinalFiltrada };
 
     // Busca pelo id do devolvedor
-    if (devolvedorId) {
-      const devolvedor = await Devolvedor.findById(devolvedorId);
-      if (devolvedor) {
-        query.devolvedor = devolvedor._id;
+    if (devolvedor) {
+      const devolvedorObj = await Devolvedor.findById(devolvedor);
+      if (devolvedorObj) {
+        query.devolvedor = devolvedorObj._id;
       } else {
         return res.status(404).json({ message: "Devolvedor não encontrado" });
       }
     }
 
     // Busca pelo id do usuario
-    if (usuarioId) {
-      const usuario = await Usuario.findById(usuarioId);
-      if (usuario) {
-        query.usuario = usuario._id;
+    if (usuario) {
+      const usuarioObj = await Usuario.findById(usuario);
+      if (usuarioObj) {
+        query.usuario = usuarioObj._id;
       } else {
         return res.status(404).json({ message: "Usuario não encontrado" });
       }
@@ -139,9 +139,9 @@ module.exports = {
       query._id = id;
     }
 
-    // Busca por valorMax
-    if (valorMax) {
-      query.valor = { $lt: parseInt(valorMax) };
+    // Busca por valor
+    if (valor) {
+      query.valor = { $lt: parseInt(valor) };
     }
 
     // Busca por localDevolucao
