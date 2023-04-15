@@ -15,6 +15,8 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "@mui/x-date-pickers": "^6.2.0",
+    "dayjs": "^1.11.7",
     "mongoose": "latest",
     "next": "latest",
     "prop-types": "latest",

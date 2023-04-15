@@ -3,8 +3,9 @@ import Head from "next/head";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
-import createEmotionCache from "@/utils/createEmotionCache";
-import "@/styles/globals.css";
+import createEmotionCache from "@/src/utils/createEmotionCache";
+import theme from '@/src/styles/theme';
+// import "@/src/styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -13,9 +14,7 @@ export default function App({
   Component,
   pageProps,
   emotionCache = clientSideEmotionCache,
-}) {
-  const theme = createTheme({})
-  return (
+}) {  return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
