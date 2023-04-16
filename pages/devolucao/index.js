@@ -117,7 +117,6 @@ function ReturnedPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Paper
-        component="form"
         sx={{
           p: "2px 4px",
           display: "flex",

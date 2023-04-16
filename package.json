@@ -21,7 +21,9 @@
     "next": "latest",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-geocode": "^0.2.3",
+    "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
     "eslint": "latest",

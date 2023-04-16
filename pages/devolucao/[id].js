@@ -16,7 +16,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import 'dayjs/locale/pt-br';
-import { formatDate } from "@/src/utils/date";
+import dynamic from "next/dynamic";
+const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
 
 function ReturnedPage() {
   const router = useRouter();
@@ -38,6 +39,21 @@ function ReturnedPage() {
     fetchReturned({ id });
   }, []);
 
+  const locations = [
+    {
+      coords: [51.505, -0.09],
+      text: "Local 1"
+    },
+    {
+      coords: [52.505, -0.09],
+      text: "Local 2"
+    },
+    {
+      coords: [53.505, -0.09],
+      text: "Local 3"
+    }
+  ];
+
   return (
     <>
       <Head>
@@ -46,36 +62,33 @@ function ReturnedPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Paper
-        component="form"
+      <Paper 
         elevation={3}
         sx={{
-          p: "2px 4px",
-          display: "flex",
-          alignItems: "center",
-          marginBottom: 2,
+          p: "1em",
+          height: "100%",
         }}
       >
-        <Grid container spacing={2} sx={{ flex: 1 }}>
-          <Grid item xs={12} direction={"column"}>
+        <Grid container spacing={2} sx={{ height: "100%" }}>
+          <Grid item xs={12}>
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <Search />
             </IconButton>
             <InputBase
-              sx={{ ml: 1, flex: 1 }}
               placeholder="Pesquisar devolução"
               value={searchValue}
               onChange={handleSearchChange}
-            />
+              />
           </Grid>
-          <Grid item xs={12} direction={"column"}>
+          <Grid item xs={12}>
             <Grid container spacing={2}>
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <Grid container>
-                  <Grid item xs={12} direction={"column"}>
+                  <Grid item xs={12}>
                     <Typography variant="h4">Lista de result</Typography>
+                      {JSON.stringify(returnedItem)}
                   </Grid>
-                  <Grid item xs={12} direction={"column"}>
+                  <Grid item xs={12}>
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
                       <DatePicker
                         label="Data limite"
@@ -84,7 +97,7 @@ function ReturnedPage() {
                       />
                     </LocalizationProvider>
                   </Grid>
-                  <Grid item xs={12} direction={"column"}>
+                  <Grid item xs={12}>
                     <Button
                       xs={12}
                       variant="contained"
@@ -96,14 +109,13 @@ function ReturnedPage() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={9}>
-                <Typography variant="h4">Mapa</Typography>
+              <Grid item sx={{ flex: 1 }}>
+              <Map locations={locations} />
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Paper>
-      {JSON.stringify(returnedItem)}
     </>
   );
 }
