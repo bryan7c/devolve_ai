@@ -15,9 +15,11 @@ import { Search } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import 'dayjs/locale/pt-br';
+import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
+import { geocode } from "nominatim-browser";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
+
 
 function ReturnedPage() {
   const router = useRouter();
@@ -25,9 +27,16 @@ function ReturnedPage() {
   const [returnedItem, setReturnedItem] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
+  const [results, setResults] = useState([]);
+  const [locations, setLocations] = useState([]);
+  
 
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
+  const handleSearchSubmit = async () => {
+    if (searchValue) {
+      const response = await geocode({q: searchValue});
+      setResults(response);
+      setLocations(response.map(locationItem => ({text: locationItem.display_name, coords: [locationItem.lat, locationItem.lon]})));
+    }
   };
 
   useEffect(() => {
@@ -39,21 +48,6 @@ function ReturnedPage() {
     fetchReturned({ id });
   }, []);
 
-  const locations = [
-    {
-      coords: [51.505, -0.09],
-      text: "Local 1"
-    },
-    {
-      coords: [52.505, -0.09],
-      text: "Local 2"
-    },
-    {
-      coords: [53.505, -0.09],
-      text: "Local 3"
-    }
-  ];
-
   return (
     <>
       <Head>
@@ -62,7 +56,7 @@ function ReturnedPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Paper 
+      <Paper
         elevation={3}
         sx={{
           p: "1em",
@@ -77,19 +71,33 @@ function ReturnedPage() {
             <InputBase
               placeholder="Pesquisar devolução"
               value={searchValue}
-              onChange={handleSearchChange}
-              />
+              onChange={event => setSearchValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  handleSearchSubmit();
+                }
+              }}
+            />
           </Grid>
-          <Grid item xs={12}>
-            <Grid container spacing={2}>
+          <Grid item xs={12} height={600}>
+            <Grid container spacing={2} height={600}>
               <Grid item xs={2}>
                 <Grid container>
                   <Grid item xs={12}>
-                    <Typography variant="h4">Lista de result</Typography>
-                      {JSON.stringify(returnedItem)}
+                    <ul>
+                      {results.map((result) => (
+                        <li key={result.place_id}>
+                          {result.display_name} ({result.lat}, {result.lon})
+                        </li>
+                      ))}
+                    </ul>
+                    {JSON.stringify(returnedItem)}
                   </Grid>
                   <Grid item xs={12}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+                    <LocalizationProvider
+                      dateAdapter={AdapterDayjs}
+                      adapterLocale="pt-br"
+                    >
                       <DatePicker
                         label="Data limite"
                         onChange={(newDate) => handleDateFilter(newDate)}
@@ -110,7 +118,7 @@ function ReturnedPage() {
                 </Grid>
               </Grid>
               <Grid item sx={{ flex: 1 }}>
-              <Map locations={locations} />
+                <Map locations={locations} />
               </Grid>
             </Grid>
           </Grid>

@@ -19,10 +19,10 @@
     "dayjs": "^1.11.7",
     "mongoose": "latest",
     "next": "latest",
+    "nominatim-browser": "^2.1.0",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-geocode": "^0.2.3",
     "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
