@@ -1,13 +1,6 @@
 import { formatDate } from "@/src/utils/date";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  Typography,
-  Grid,
-  Chip,
-} from "@mui/material";
-import returnedItemStyle from "@/src/styles/Returned.module.css";
+import { Card, CardHeader, CardContent, Typography, Grid, Chip } from "@mui/material";
+import returnedItemStyle from "./Returned.module.css";
 
 function CardReturnedItem({ returnedItem, action }) {
   const getColor = (status) => {

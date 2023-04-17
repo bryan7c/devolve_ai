@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { getReturnedItems } from "@/src/services/ReturnedService";
+import { updateReturnedItem } from "@/src/services/ReturnedService";
 import {
   Button,
   Grid,
@@ -22,17 +22,18 @@ import {
   MapResultContainer,
   MapResultItem,
 } from "@/src/components/map/locationResultItem";
+import { formatDate } from "@/src/utils/date";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
 
 export async function getServerSideProps({query}) {
   const id = query.id.toString();
   const baseUrl = process.env.API_URL;
   const url = `${baseUrl}/returned?id=${id}`;
-  const returnedItem = await fetch(url).then(response => (response.json()))
+  const returnedItem = await fetch(url).then(response => (response.json()));
 
   return {
       props: {
-        returnedItem,
+        returnedItem: returnedItem[0],
       }
   }
 }
@@ -44,6 +45,7 @@ function ReturnedPage({returnedItem}) {
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
   const [destination, setDestination] = useState(null);
+  const router = useRouter();
 
   const handleSearchSubmit = async () => {
     if (searchValue) {
@@ -58,8 +60,19 @@ function ReturnedPage({returnedItem}) {
     }
   };
 
-  const flyToLocation = (coords) => {
-    setDestination(coords);
+  const handleSave = async () => {
+    returnedItem.dataLimite = returnedItemDate.$d;
+    updateReturnedItem(returnedItem)
+    .then(() => {
+      router.push("/devolucao");
+    })
+  };
+  
+  const flyToLocation = (destination) => {
+    returnedItem.coordenadas = [destination.lat, destination.lon];
+    returnedItem.localDevolucao = destination.display_name.split(',')[0];
+
+    setDestination([destination.lat, destination.lon]);
   };
 
   return (
@@ -99,14 +112,14 @@ function ReturnedPage({returnedItem}) {
                 {results.map((result) => (
                   <MapResultItem
                     key={result.place_id}
-                    onClick={() => flyToLocation([result.lat, result.lon])}
+                    onClick={() => flyToLocation(result)}
                     groupName={"returnedLoc"}
                     title={result.display_name}
                     subtitle='R$14,20'
                   />
                 ))}
               </MapResultContainer>
-              {JSON.stringify(returnedItem.dataLimite)}
+              {JSON.stringify(returnedItem)}
               <Grid item xs={12}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
@@ -115,13 +128,13 @@ function ReturnedPage({returnedItem}) {
                   <DatePicker
                     label="Data limite"
                     onChange={(newDate) => setReturnedItemDate(newDate)}
-                    value={returnedItemDate}
+                    value={dayjs(returnedItem.dataLimite)}
                   />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <Button xs={12} variant="contained" size="large" color="info">
-                  CRIAR DEVOLUÇAO
+                <Button xs={12} variant="contained" size="large" color="info" onClick={handleSave}>
+                  SALVAR
                 </Button>
               </Grid>
             </Grid>

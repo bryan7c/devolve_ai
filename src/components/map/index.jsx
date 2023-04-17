@@ -13,23 +13,23 @@ const redIcon = new L.Icon({
 });
 
 const Map = ({ locations, destination }) => {
-  const [initialPosition, setPosition] = useState([0, 0]);
+  // const [initialPosition, setPosition] = useState([0, 0]);
 
   useEffect(() => {
     // Verifica se o navegador suporta a API de geolocalização
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        setPosition([latitude, longitude]);
-      });
-    } else {
-      console.log('Geolocation is not supported by this browser.');
-    }
+    // if ('geolocation' in navigator) {
+    //   navigator.geolocation.getCurrentPosition((position) => {
+    //     const { latitude, longitude } = position.coords;
+    //     setPosition([latitude, longitude]);
+    //   });
+    // } else {
+    //   console.log('Geolocation is not supported by this browser.');
+    // }
   }, []);
 
   return (
   <MapContainer
-    center={initialPosition}
+    center={[0,0]}
     zoom={13}
     style={{ height: "100%", width: "100%" }}
   >
@@ -37,7 +37,7 @@ const Map = ({ locations, destination }) => {
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
-    <LocationMarker position={initialPosition} />
+    {/* <LocationMarker position={initialPosition} /> */}
     <LocationMarker position={destination} />
     {locations.map((location, index) => (
       <Marker key={index} position={location.coords}>

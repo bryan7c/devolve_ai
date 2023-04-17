@@ -3,6 +3,16 @@
   background-size: cover;
 }
 
+.MuiCardHeaderRoot div {
+  min-width: 0px;
+}
+
+.MuiCardHeaderRoot span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .MuiCardHeaderRoot * {
   color: white;
 }

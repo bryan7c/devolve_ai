@@ -5,6 +5,10 @@ const devolucaoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  coordenadas: {
+    type: [Number],
+    index: '2dsphere'
+  },
   status: {
     type: String,
     required: true

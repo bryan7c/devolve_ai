@@ -1,14 +1,32 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
-import { Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, InputBase, MenuItem, Paper } from "@mui/material";
-import { deleteReturnedItem, getReturnedItems } from "@/src/services/ReturnedService";
+import {
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  Grid,
+  IconButton,
+  InputBase,
+  MenuItem,
+  Paper,
+} from "@mui/material";
+import {
+  deleteReturnedItem,
+  getReturnedItems,
+} from "@/src/services/ReturnedService";
 import CardReturnedItem from "@/src/components/CardReturnedItem/CardReturnedItem";
 import ActionMenu from "@/src/components/ActionMenu/ActionMenu";
 import { Search } from "@mui/icons-material";
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import 'dayjs/locale/pt-br';
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { useRouter } from 'next/router';
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import "dayjs/locale/pt-br";
 
 function ReturnedPage() {
   const [originalReturnedList, setOriginalReturnedList] = useState([]);
@@ -17,6 +35,7 @@ function ReturnedPage() {
   const [selectedReturnedItemId, setSelectedReturnedItemId] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const router = useRouter();
 
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
@@ -30,7 +49,9 @@ function ReturnedPage() {
       // Caso contrário, filtre as devoluções com base no valor de pesquisa
       setReturnedList(
         originalReturnedList.filter((returnedItem) =>
-          returnedItem.localDevolucao.toLowerCase().includes(searchValue.toLowerCase())
+          returnedItem.localDevolucao
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
         )
       );
     }
@@ -48,17 +69,17 @@ function ReturnedPage() {
 
   useEffect(() => {
     async function fetchReturned() {
-    getReturnedItems().then((data) => {
-      setOriginalReturnedList(data);
-      setReturnedList(data);
-    });
-  }
+      getReturnedItems().then((data) => {
+        setOriginalReturnedList(data);
+        setReturnedList(data);
+      });
+    }
 
-  fetchReturned();
+    fetchReturned();
   }, []);
 
   const handleEdit = (returnedItemId) => {
-    alert(`Editando devolução ${returnedItemId}`);
+    router.push(`/devolucao/${returnedItemId}`)
   };
 
   const handleDelete = () => {
@@ -77,7 +98,6 @@ function ReturnedPage() {
     });
   };
 
-  
   const handleStatusFilter = (status) => {
     if (statusFilter === status) {
       setStatusFilter("");
@@ -86,8 +106,9 @@ function ReturnedPage() {
     } else {
       // Caso contrário, filtre as devoluções com base no valor de pesquisa
       setReturnedList(
-        originalReturnedList.filter(returnedItem =>
-          returnedItem.status.toLowerCase() === status.toLowerCase()
+        originalReturnedList.filter(
+          (returnedItem) =>
+            returnedItem.status.toLowerCase() === status.toLowerCase()
         )
       );
     }
@@ -100,7 +121,7 @@ function ReturnedPage() {
       setReturnedList(originalReturnedList);
     } else {
       setReturnedList(
-        originalReturnedList.filter(returnedItem =>{
+        originalReturnedList.filter((returnedItem) => {
           const itemDate = new Date(returnedItem.dataLimite).getTime();
           return itemDate <= dataLimite;
         })
@@ -133,37 +154,40 @@ function ReturnedPage() {
           value={searchValue}
           onChange={handleSearchChange}
           onKeyDown={(event) => {
-            if (event.key === 'Enter') {
+            if (event.key === "Enter") {
               handleSearchSubmit();
             }
           }}
         />
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <LocalizationProvider dateAdapter={AdapterDayjs}  adapterLocale="pt-br">
-          <DatePicker label="Data limite" onChange={(newDate) => handleDateFilter(newDate)}/>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
+          <DatePicker
+            label="Data limite"
+            onChange={(newDate) => handleDateFilter(newDate)}
+          />
         </LocalizationProvider>
         <Chip
           color="info"
-          onClick={event => handleStatusFilter(event.target.dataset.status)}
+          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
           size="small"
           data-status="Em andamento"
-          sx={{ height: 20, width: 40, margin: '0 .3em' }}
+          sx={{ height: 20, width: 40, margin: "0 .3em" }}
           variant="solid"
         />
         <Chip
           color="secondary"
-          onClick={event => handleStatusFilter(event.target.dataset.status)}
+          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
           size="small"
           data-status="Aguardando"
-          sx={{ height: 20, width: 40, margin: '0 .3em' }}
+          sx={{ height: 20, width: 40, margin: "0 .3em" }}
           variant="solid"
         />
         <Chip
           color="success"
-          onClick={event => handleStatusFilter(event.target.dataset.status)}
+          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
           size="small"
           data-status="Finalizado"
-          sx={{ height: 20, width: 40, margin: '0 .3em' }}
+          sx={{ height: 20, width: 40, margin: "0 .3em" }}
           variant="solid"
         />
       </Paper>
