@@ -18,35 +18,49 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
 import { geocode } from "nominatim-browser";
+import {
+  MapResultContainer,
+  MapResultItem,
+} from "@/src/components/map/locationResultItem";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
 
+export async function getServerSideProps({query}) {
+  const id = query.id.toString();
+  const baseUrl = process.env.API_URL;
+  const url = `${baseUrl}/returned?id=${id}`;
+  const returnedItem = await fetch(url).then(response => (response.json()))
 
-function ReturnedPage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [returnedItem, setReturnedItem] = useState(null);
+  return {
+      props: {
+        returnedItem,
+      }
+  }
+}
+
+
+function ReturnedPage({returnedItem}) {
   const [searchValue, setSearchValue] = useState("");
   const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
-  
+  const [destination, setDestination] = useState(null);
 
   const handleSearchSubmit = async () => {
     if (searchValue) {
-      const response = await geocode({q: searchValue});
+      const response = await geocode({ street: searchValue });
       setResults(response);
-      setLocations(response.map(locationItem => ({text: locationItem.display_name, coords: [locationItem.lat, locationItem.lon]})));
+      setLocations(
+        response.map((locationItem) => ({
+          text: locationItem.display_name,
+          coords: [locationItem.lat, locationItem.lon],
+        }))
+      );
     }
   };
 
-  useEffect(() => {
-    async function fetchReturned(returnedItem) {
-      getReturnedItems(returnedItem).then((data) => {
-        setReturnedItem(data[0]);
-      });
-    }
-    fetchReturned({ id });
-  }, []);
+  const flyToLocation = (coords) => {
+    setDestination(coords);
+  };
 
   return (
     <>
@@ -71,55 +85,48 @@ function ReturnedPage() {
             <InputBase
               placeholder="Pesquisar devolução"
               value={searchValue}
-              onChange={event => setSearchValue(event.target.value)}
+              onChange={(event) => setSearchValue(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === 'Enter') {
+                if (event.key === "Enter") {
                   handleSearchSubmit();
                 }
               }}
             />
           </Grid>
-          <Grid item xs={12} height={600}>
-            <Grid container spacing={2} height={600}>
-              <Grid item xs={2}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <ul>
-                      {results.map((result) => (
-                        <li key={result.place_id}>
-                          {result.display_name} ({result.lat}, {result.lon})
-                        </li>
-                      ))}
-                    </ul>
-                    {JSON.stringify(returnedItem)}
-                  </Grid>
-                  <Grid item xs={12}>
-                    <LocalizationProvider
-                      dateAdapter={AdapterDayjs}
-                      adapterLocale="pt-br"
-                    >
-                      <DatePicker
-                        label="Data limite"
-                        onChange={(newDate) => handleDateFilter(newDate)}
-                        value={returnedItemDate}
-                      />
-                    </LocalizationProvider>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Button
-                      xs={12}
-                      variant="contained"
-                      size="large"
-                      color="info"
-                    >
-                      CRIAR DEVOLUÇAO
-                    </Button>
-                  </Grid>
-                </Grid>
+          <Grid container item xs={12} spacing={2} height={600}>
+            <Grid container item xs={2}>
+              <MapResultContainer>
+                {results.map((result) => (
+                  <MapResultItem
+                    key={result.place_id}
+                    onClick={() => flyToLocation([result.lat, result.lon])}
+                    groupName={"returnedLoc"}
+                    title={result.display_name}
+                    subtitle='R$14,20'
+                  />
+                ))}
+              </MapResultContainer>
+              {JSON.stringify(returnedItem.dataLimite)}
+              <Grid item xs={12}>
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale="pt-br"
+                >
+                  <DatePicker
+                    label="Data limite"
+                    onChange={(newDate) => setReturnedItemDate(newDate)}
+                    value={returnedItemDate}
+                  />
+                </LocalizationProvider>
               </Grid>
-              <Grid item sx={{ flex: 1 }}>
-                <Map locations={locations} />
+              <Grid item xs={12}>
+                <Button xs={12} variant="contained" size="large" color="info">
+                  CRIAR DEVOLUÇAO
+                </Button>
               </Grid>
+            </Grid>
+            <Grid item sx={{ flex: 1 }}>
+              <Map locations={locations} destination={destination} />
             </Grid>
           </Grid>
         </Grid>
