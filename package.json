@@ -16,14 +16,14 @@
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
     "@mui/x-date-pickers": "^6.2.0",
+    "@react-google-maps/api": "^2.18.1",
     "dayjs": "^1.11.7",
     "mongoose": "latest",
     "next": "latest",
     "nominatim-browser": "^2.1.0",
     "prop-types": "latest",
     "react": "latest",
-    "react-dom": "latest",
-    "react-leaflet": "^4.2.1"
+    "react-dom": "latest"
   },
   "devDependencies": {
     "eslint": "latest",

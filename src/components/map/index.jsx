@@ -1,67 +1,50 @@
-import { useEffect, useState } from 'react';
-import { MapContainer, Marker, TileLayer, Popup, useMap } from "react-leaflet";
+import { useState, useCallback } from "react";
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
-const redIcon = new L.Icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-const Map = ({ locations, destination }) => {
-  // const [initialPosition, setPosition] = useState([0, 0]);
-
-  useEffect(() => {
-    // Verifica se o navegador suporta a API de geolocalização
-    // if ('geolocation' in navigator) {
-    //   navigator.geolocation.getCurrentPosition((position) => {
-    //     const { latitude, longitude } = position.coords;
-    //     setPosition([latitude, longitude]);
-    //   });
-    // } else {
-    //   console.log('Geolocation is not supported by this browser.');
-    // }
-  }, []);
-
-  return (
-  <MapContainer
-    center={[0,0]}
-    zoom={13}
-    style={{ height: "100%", width: "100%" }}
-  >
-    <TileLayer
-      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-    {/* <LocationMarker position={initialPosition} /> */}
-    <LocationMarker position={destination} />
-    {locations.map((location, index) => (
-      <Marker key={index} position={location.coords}>
-        <Popup>{location.text}</Popup>
-      </Marker>
-    ))}
-  </MapContainer>
-  )
+const center = {
+  lat: -3.745,
+  lng: -38.523
 };
 
-function LocationMarker({ position }) {
-  const map = useMap();
+function Map() {
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyDEI0-FS-iJl25mu23dSfFLzodOZZ4Vr3k'
+  })
 
-  useEffect(() => {
-    if (position && position[0] !== 0 && position[1] !== 0) {
-      map.flyTo(position, map.getZoom());
+  const [map, setMap] = useState(null)
+
+  const onLoad = useCallback(function callback(map) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        const bounds = new window.google.maps.LatLngBounds({lat: latitude, lng: longitude});
+        map.fitBounds(bounds);
+      });
+    } else {
+      console.log('Geolocation is not supported by this browser.');
     }
-  }, [position]);
 
-  return position === null ? null : (
-    <Marker position={position} icon={redIcon}>
-      <Popup>Você está aqui</Popup>
-    </Marker>
-  );
+    setMap(map)
+  }, [])
+
+  const onUnmount = useCallback(function callback(map) {
+    setMap(null)
+  }, [])
+
+  return isLoaded ? (
+      <GoogleMap
+        mapContainerStyle={{width: '100%', height: '100%' }}
+        center={center}
+        zoom={5}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        { /* Child components, such as markers, info windows, etc. */ }
+        <></>
+      </GoogleMap>
+  ) : <></>
 }
+
 
 export default Map;
