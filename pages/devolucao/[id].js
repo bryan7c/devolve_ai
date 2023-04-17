@@ -23,6 +23,7 @@ import {
   MapResultItem,
 } from "@/src/components/map/locationResultItem";
 import { formatDate } from "@/src/utils/date";
+import AutoCompleteLocation from "@/src/components/map/AutoCompleteLocation";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
 
 export async function getServerSideProps({query}) {
@@ -50,12 +51,10 @@ function ReturnedPage({returnedItem}) {
   const handleSearchSubmit = async () => {
     if (searchValue) {
       const response = await geocode({ street: searchValue });
+      
       setResults(response);
       setLocations(
-        response.map((locationItem) => ({
-          text: locationItem.display_name,
-          coords: [locationItem.lat, locationItem.lon],
-        }))
+        response.map((locationItem) => ({lat: parseFloat(locationItem.lat), lng: parseFloat(locationItem.lon)}))
       );
     }
   };
@@ -95,16 +94,7 @@ function ReturnedPage({returnedItem}) {
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <Search />
             </IconButton>
-            <InputBase
-              placeholder="Pesquisar devolução"
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  handleSearchSubmit();
-                }
-              }}
-            />
+            <AutoCompleteLocation placeholder="Pesquisar devolução" />
           </Grid>
           <Grid container item xs={12} spacing={2} height={600}>
             <Grid container item xs={2}>
@@ -139,7 +129,7 @@ function ReturnedPage({returnedItem}) {
               </Grid>
             </Grid>
             <Grid item sx={{ flex: 1 }}>
-              <Map locations={locations} destination={destination} />
+              <Map locations={locations} direction={destination} />
             </Grid>
           </Grid>
         </Grid>
