@@ -1,8 +1,8 @@
 // Função para buscar as devoluções
+const baseUrl = process.env.API_URL;
 const getReturnedItems = async (returnedItem = {}) => {
   const params = new URLSearchParams(returnedItem);
-
-  const url = `/api/returned?${params.toString()}`;
+  const url = `${baseUrl}/api/returned?${params.toString()}`;
   return await fetch(url)
     .then((response) => {
       return response.json();

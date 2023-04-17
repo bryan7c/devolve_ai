@@ -12,7 +12,7 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const Map = ({ locations }) => {
+const Map = ({ locations, destination }) => {
   const [initialPosition, setPosition] = useState([0, 0]);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ const Map = ({ locations }) => {
       url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     <LocationMarker position={initialPosition} />
+    <LocationMarker position={destination} />
     {locations.map((location, index) => (
       <Marker key={index} position={location.coords}>
         <Popup>{location.text}</Popup>
@@ -51,7 +52,7 @@ function LocationMarker({ position }) {
   const map = useMap();
 
   useEffect(() => {
-    if (position[0] !== 0 && position[1] !== 0) {
+    if (position && position[0] !== 0 && position[1] !== 0) {
       map.flyTo(position, map.getZoom());
     }
   }, [position]);
