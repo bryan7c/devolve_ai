@@ -67,13 +67,6 @@ function ReturnedPage({returnedItem}) {
       router.push("/devolucao");
     })
   };
-  
-  const flyToLocation = (destination) => {
-    returnedItem.coordenadas = [destination.lat, destination.lon];
-    returnedItem.localDevolucao = destination.display_name.split(',')[0];
-
-    setDestination([destination.lat, destination.lon]);
-  };
 
   function onPlaceChanged(place) {
     setDestination(place);

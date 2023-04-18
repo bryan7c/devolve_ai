@@ -6,18 +6,9 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 
-const containerStyle = {
-  width: "100%",
-  height: "500px",
-};
-
-let center = {
-  lat: -3.745,
-  lng: -38.523,
-};
 
 function MapWithSearch({ locations, destination, isLoaded }) {
-  const [origin, setOrigin] = useState(null);
+  const [origin, setOrigin] = useState({ lat: -3.745, lng: -38.523});
   const [directions, setDirections] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -64,8 +55,11 @@ function MapWithSearch({ locations, destination, isLoaded }) {
     <>
       {isLoaded ? (
         <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
+          mapContainerStyle={{
+            width: "100%",
+            height: "100%",
+          }}
+          center={origin}
           onLoad={onLoad}
           zoom={10}
           onUnmount={onUnmount}

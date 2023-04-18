@@ -71,7 +71,6 @@ function AutoCompleteLocation({
                     lng,
                     description: prediction.description,
                     name: placeResult.name,
-                    photos: placeResult.photos.map(photo => photo.getUrl()),
                     place_id: placeResult.place_id,
                   });
                 } else {
