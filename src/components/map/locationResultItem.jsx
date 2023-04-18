@@ -18,7 +18,7 @@ const MapResultItem = ({ groupName, title, subtitle, onClick = ()=>{} }) => {
       <Grid item xs={"auto"}>
         <input type="radio" id={`result-map-id-${uniqueId}`} name={groupName} />
       </Grid>
-      <Grid item xs sx={{"min-width": 0}}>
+      <Grid item xs minWidth={0}>
         <Typography noWrap={true}>{title}</Typography>
       </Grid>
       <Grid item xs={"auto"} color={"gray.main"}>

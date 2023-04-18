@@ -23,8 +23,9 @@ import {
   MapResultItem,
 } from "@/src/components/map/locationResultItem";
 import { formatDate } from "@/src/utils/date";
-import AutoCompleteLocation from "@/src/components/map/AutoCompleteLocation";
+import { useLoadScript } from "@react-google-maps/api";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
+const AutoCompleteLocation = dynamic(() => import("@/src/components/map/AutoCompleteLocation"), { ssr: false });
 
 export async function getServerSideProps({query}) {
   const id = query.id.toString();
@@ -39,7 +40,7 @@ export async function getServerSideProps({query}) {
   }
 }
 
-
+const libraries = ["places"];
 function ReturnedPage({returnedItem}) {
   const [searchValue, setSearchValue] = useState("");
   const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
@@ -74,6 +75,21 @@ function ReturnedPage({returnedItem}) {
     setDestination([destination.lat, destination.lon]);
   };
 
+  function onPlaceChanged(place) {
+    setDestination(place);
+  }
+  function onResult(locationList) {
+    console.log(locationList)
+      setLocations(locationList);
+      setResults(locationList);
+  }
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyDEI0-FS-iJl25mu23dSfFLzodOZZ4Vr3k",
+    libraries: libraries,
+    id: 'google-map-script',
+  });
+
   return (
     <>
       <Head>
@@ -94,7 +110,7 @@ function ReturnedPage({returnedItem}) {
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <Search />
             </IconButton>
-            <AutoCompleteLocation placeholder="Pesquisar devolução" />
+            <AutoCompleteLocation placeholder="Pesquisar devolução" onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult}/>
           </Grid>
           <Grid container item xs={12} spacing={2} height={600}>
             <Grid container item xs={2}>
@@ -102,9 +118,9 @@ function ReturnedPage({returnedItem}) {
                 {results.map((result) => (
                   <MapResultItem
                     key={result.place_id}
-                    onClick={() => flyToLocation(result)}
+                    onClick={() => setDestination(result)}
                     groupName={"returnedLoc"}
-                    title={result.display_name}
+                    title={result.name}
                     subtitle='R$14,20'
                   />
                 ))}
@@ -129,7 +145,7 @@ function ReturnedPage({returnedItem}) {
               </Grid>
             </Grid>
             <Grid item sx={{ flex: 1 }}>
-              <Map locations={locations} direction={destination} />
+              <Map locations={locations} destination={destination} isLoaded={isLoaded} />
             </Grid>
           </Grid>
         </Grid>

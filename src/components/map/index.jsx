@@ -1,50 +1,97 @@
-import { useState, useCallback } from "react";
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import React, { useState, useCallback } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
 
-const center = {
-  lat: -3.745,
-  lng: -38.523
+const containerStyle = {
+  width: "100%",
+  height: "500px",
 };
 
-function Map() {
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyDEI0-FS-iJl25mu23dSfFLzodOZZ4Vr3k'
-  })
+let center = {
+  lat: -3.745,
+  lng: -38.523,
+};
 
-  const [map, setMap] = useState(null)
+function MapWithSearch({ locations, destination, isLoaded }) {
+  const [origin, setOrigin] = useState(null);
+  const [directions, setDirections] = useState(null);
+  const [map, setMap] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
-    if ('geolocation' in navigator) {
+    if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        const bounds = new window.google.maps.LatLngBounds({lat: latitude, lng: longitude});
-        map.fitBounds(bounds);
+        const pos = new window.google.maps.LatLng(latitude, longitude);
+        const marker = new window.google.maps.Marker({
+          position: pos,
+          map: map,
+        });
+        setOrigin({ lat: latitude, lng: longitude });
+        map.setCenter(pos);
+        map.setZoom(15);
       });
     } else {
-      console.log('Geolocation is not supported by this browser.');
+      console.log("Geolocation is not supported by this browser.");
     }
-
-    setMap(map)
-  }, [])
+  }, []);
 
   const onUnmount = useCallback(function callback(map) {
-    setMap(null)
-  }, [])
+    setMap(null);
+  }, []);
 
-  return isLoaded ? (
-      <GoogleMap
-        mapContainerStyle={{width: '100%', height: '100%' }}
-        center={center}
-        zoom={5}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        { /* Child components, such as markers, info windows, etc. */ }
+  const onDirectionsChanged = () => {
+    setDirections(null);
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: origin,
+        destination: destination,
+        travelMode: "DRIVING",
+      },
+      (result, status) => {
+        if (status === "OK") {
+          setDirections(result);
+        }
+      }
+    );
+  };
+
+  return (
+    <>
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          onLoad={onLoad}
+          zoom={10}
+          onUnmount={onUnmount}
+        >
+          {locations &&
+            locations.length > 0 &&
+            locations.map((location, index) => (
+              <Marker
+                key={index}
+                position={{ lat: location.lat, lng: location.lng }}
+              />
+            ))}
+          {origin && <Marker position={{ lat: origin.lat, lng: origin.lng }} />}
+          {destination && (
+            <Marker
+              position={{ lat: destination.lat, lng: destination.lng }}
+              onLoad={onDirectionsChanged}
+            />
+          )}
+          {directions && <DirectionsRenderer directions={directions} />}
+        </GoogleMap>
+      ) : (
         <></>
-      </GoogleMap>
-  ) : <></>
+      )}
+    </>
+  );
 }
 
-
-export default Map;
+export default MapWithSearch;
