@@ -4,7 +4,7 @@ import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
   async criarDevolucao(req, res) {
-    const { localDevolucao, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     // Converter a data de string para objeto Date
     const dataObjeto = new Date(dataLimite);
@@ -14,7 +14,7 @@ module.exports = {
 
     try {
       const devolucao = new Devolucao({
-        localDevolucao,
+        titulo,
         valor: parseInt(valor),
         dataLimite: new Date(dataISO),
         status,
@@ -32,7 +32,7 @@ module.exports = {
 
   async atualizarDevolucao(req, res) {
     const { id } = req.query;
-    const { localDevolucao, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     try {
       const devolucaoAntiga = await Devolucao.findById(id);
@@ -42,8 +42,8 @@ module.exports = {
 
       let devolucaoAtualizada = { ...devolucaoAntiga.toObject() };
 
-      if (localDevolucao) {
-        devolucaoAtualizada.localDevolucao = localDevolucao;
+      if (titulo) {
+        devolucaoAtualizada.titulo = titulo;
       }
       if (valor) {
         devolucaoAtualizada.valor = valor;
@@ -91,7 +91,7 @@ module.exports = {
     const {
       status,
       valor,
-      localDevolucao,
+      titulo,
       coordenadas,
       dataInicial,
       dataLimite,
@@ -154,9 +154,9 @@ module.exports = {
       query.valor = { $lt: parseInt(valor) };
     }
 
-    // Busca por localDevolucao
-    if (localDevolucao) {
-      query.localDevolucao = localDevolucao;
+    // Busca por titulo
+    if (titulo) {
+      query.titulo = titulo;
     }
 
     try {

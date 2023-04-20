@@ -49,7 +49,7 @@ function ReturnedPage() {
       // Caso contrário, filtre as devoluções com base no valor de pesquisa
       setReturnedList(
         originalReturnedList.filter((returnedItem) =>
-          returnedItem.localDevolucao
+          returnedItem.titulo
             .toLowerCase()
             .includes(searchValue.toLowerCase())
         )

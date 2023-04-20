@@ -1,7 +1,7 @@
 import mongoose from '@/src/database';
 
 const devolucaoSchema = new mongoose.Schema({
-  localDevolucao: {
+  titulo: {
     type: String,
     required: true
   },

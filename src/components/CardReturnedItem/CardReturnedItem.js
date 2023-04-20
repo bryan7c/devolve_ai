@@ -19,7 +19,7 @@ function CardReturnedItem({ returnedItem, action }) {
         <CardHeader
           className={returnedItemStyle.MuiCardHeaderRoot}
           action={action}
-          title={returnedItem.localDevolucao}
+          title={returnedItem.titulo}
         />
         <CardContent>
           <Grid container direction="column">

@@ -14,13 +14,6 @@ function AutoCompleteLocation({
     setSearchResult(autocomplete);
   }
 
-  function handlePlaceChanged() {
-    if (searchResult != null) {
-      const place = searchResult.getPlace();
-      onPlaceChanged(place);
-    }
-  }
-
   async function handlePlaceChanged() {
     if (searchResult != null) {
       const place = searchResult.getPlace();

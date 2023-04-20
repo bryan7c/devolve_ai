@@ -1,85 +1,73 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
 import { updateReturnedItem } from "@/src/services/ReturnedService";
-import {
-  Button,
-  Grid,
-  IconButton,
-  InputBase,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, IconButton, Paper } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
-import { geocode } from "nominatim-browser";
 import {
   MapResultContainer,
   MapResultItem,
 } from "@/src/components/map/locationResultItem";
 import { useLoadScript } from "@react-google-maps/api";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
-const AutoCompleteLocation = dynamic(() => import("@/src/components/map/AutoCompleteLocation"), { ssr: false });
+const AutoCompleteLocation = dynamic(
+  () => import("@/src/components/map/AutoCompleteLocation"),
+  { ssr: false }
+);
 
-export async function getServerSideProps({query}) {
+export async function getServerSideProps({ query }) {
   const id = query.id.toString();
   const baseUrl = process.env.API_URL;
   const url = `${baseUrl}/returned?id=${id}`;
-  const returnedItem = await fetch(url).then(response => (response.json()));
+  const returnedItem = await fetch(url).then((response) => response.json());
 
   return {
-      props: {
-        returnedItem: returnedItem[0],
-      }
-  }
+    props: {
+      returnedItem: returnedItem[0],
+    },
+  };
 }
 
 const libraries = ["places"];
-function ReturnedPage({returnedItem}) {
-  const [searchValue, setSearchValue] = useState("");
-  const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
+function ReturnedPage({ returnedItem }) {
+  const [returnedItemDate, setReturnedItemDate] = useState(dayjs(returnedItem.dataLimite));
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [destination, setDestination] = useState(null);
+  const [destination, setDestination] = useState(returnedItem.coordenadas);
   const router = useRouter();
 
-  const handleSearchSubmit = async () => {
-    if (searchValue) {
-      const response = await geocode({ street: searchValue });
-      
-      setResults(response);
-      setLocations(
-        response.map((locationItem) => ({lat: parseFloat(locationItem.lat), lng: parseFloat(locationItem.lon)}))
-      );
-    }
-  };
-
   const handleSave = async () => {
-    returnedItem.dataLimite = returnedItemDate.$d;
-    updateReturnedItem(returnedItem)
-    .then(() => {
-      router.push("/devolucao");
-    })
+    returnedItem.coordenadas = destination;
+
+    updateReturnedItem(returnedItem).then(() => {
+      router.push("/");
+    });
   };
 
   function onPlaceChanged(place) {
     setDestination(place);
   }
+
   function onResult(locationList) {
-    console.log(locationList)
-      setLocations(locationList);
-      setResults(locationList);
+    setLocations(locationList);
+    setResults(locationList);
+  }
+
+  function handleReturnedDate(newDate) {
+    setReturnedItemDate(newDate);
+    returnedItem.dataLimite = newDate.$d;
   }
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyDEI0-FS-iJl25mu23dSfFLzodOZZ4Vr3k",
     libraries: libraries,
-    id: 'google-map-script',
+    id: "google-map-script",
   });
 
   return (
@@ -102,7 +90,12 @@ function ReturnedPage({returnedItem}) {
             <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
               <Search />
             </IconButton>
-            <AutoCompleteLocation placeholder="Pesquisar devolução" onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult}/>
+            <AutoCompleteLocation
+              placeholder="Pesquisar devolução"
+              onPlaceChanged={onPlaceChanged}
+              isLoaded={isLoaded}
+              onResult={onResult}
+            />
           </Grid>
           <Grid container item xs={12} spacing={2} height={600}>
             <Grid container item xs={2}>
@@ -113,7 +106,7 @@ function ReturnedPage({returnedItem}) {
                     onClick={() => setDestination(result)}
                     groupName={"returnedLoc"}
                     title={result.name}
-                    subtitle='R$14,20'
+                    subtitle="R$14,20"
                   />
                 ))}
               </MapResultContainer>
@@ -125,19 +118,29 @@ function ReturnedPage({returnedItem}) {
                 >
                   <DatePicker
                     label="Data limite"
-                    onChange={(newDate) => setReturnedItemDate(newDate)}
-                    value={dayjs(returnedItem.dataLimite)}
+                    onChange={(newDate) => handleReturnedDate(newDate)}
+                    value={returnedItemDate}
                   />
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={12}>
-                <Button xs={12} variant="contained" size="large" color="info" onClick={handleSave}>
+                <Button
+                  xs={12}
+                  variant="contained"
+                  size="large"
+                  color="info"
+                  onClick={handleSave}
+                >
                   SALVAR
                 </Button>
               </Grid>
             </Grid>
             <Grid item sx={{ flex: 1 }}>
-              <Map locations={locations} destination={destination} isLoaded={isLoaded} />
+              <Map
+                locations={locations}
+                destination={destination}
+                isLoaded={isLoaded}
+              />
             </Grid>
           </Grid>
         </Grid>
