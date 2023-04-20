@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -8,7 +8,7 @@ import {
 
 
 function MapWithSearch({ locations, destination, isLoaded }) {
-  const [origin, setOrigin] = useState({ lat: -3.745, lng: -38.523});
+  const [origin, setOrigin] = useState(null);
   const [directions, setDirections] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -33,9 +33,13 @@ function MapWithSearch({ locations, destination, isLoaded }) {
   const onUnmount = useCallback(function callback(map) {
     setMap(null);
   }, []);
-
+  
+  
   const onDirectionsChanged = () => {
     setDirections(null);
+    if (!window.google ) {
+      return null;
+    }
     const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
@@ -50,6 +54,10 @@ function MapWithSearch({ locations, destination, isLoaded }) {
       }
     );
   };
+
+  useEffect(() => {
+    onDirectionsChanged();
+  }, [destination]);
 
   return (
     <>

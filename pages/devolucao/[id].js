@@ -22,7 +22,6 @@ import {
   MapResultContainer,
   MapResultItem,
 } from "@/src/components/map/locationResultItem";
-import { formatDate } from "@/src/utils/date";
 import { useLoadScript } from "@react-google-maps/api";
 const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
 const AutoCompleteLocation = dynamic(() => import("@/src/components/map/AutoCompleteLocation"), { ssr: false });
@@ -118,7 +117,7 @@ function ReturnedPage({returnedItem}) {
                   />
                 ))}
               </MapResultContainer>
-              {JSON.stringify(returnedItem)}
+              {/* {JSON.stringify(returnedItem)} */}
               <Grid item xs={12}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}

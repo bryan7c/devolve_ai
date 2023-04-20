@@ -2,7 +2,7 @@ const { Title } = require("@mui/icons-material");
 import ResultMapStyle from "./ResultMap.module.css";
 import { Grid, Typography } from "@mui/material";
 
-const MapResultItem = ({ groupName, title, subtitle, onClick = ()=>{} }) => {
+const MapResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
   const uniqueId = Math.random().toString(36).substr(2, 9);
 
   return (
@@ -19,10 +19,14 @@ const MapResultItem = ({ groupName, title, subtitle, onClick = ()=>{} }) => {
         <input type="radio" id={`result-map-id-${uniqueId}`} name={groupName} />
       </Grid>
       <Grid item xs minWidth={0}>
-        <Typography noWrap={true}>{title}</Typography>
+        <label htmlFor={`result-map-id-${uniqueId}`}>
+          <Typography noWrap={true}>{title}</Typography>
+        </label>
       </Grid>
       <Grid item xs={"auto"} color={"gray.main"}>
-        <span>{subtitle}</span>
+        <label htmlFor={`result-map-id-${uniqueId}`}>
+          <span>{subtitle}</span>
+        </label>
       </Grid>
     </Grid>
   );
