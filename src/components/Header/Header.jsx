@@ -43,7 +43,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" className="primary">
         <Toolbar disableGutters>
           <LogoIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -126,7 +126,7 @@ function ResponsiveAppBar() {
               <Link href={page.url} key={index}>
                 <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{ my: 2, display: "block", color: "primary.contrastText" }}
                 >
                   {page.label}
                 </Button>

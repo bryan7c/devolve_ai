@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { Autocomplete } from "@react-google-maps/api";
 import { InputBase } from "@mui/material";
 
 function AutoCompleteLocation({
@@ -89,8 +89,8 @@ function AutoCompleteLocation({
   }
 
   return (
-    <Autocomplete onPlaceChanged={handlePlaceChanged} onLoad={onLoad}>
-      <InputBase placeholder={placeholder} onKeyDown={handleSearchKeyDown} />
+    <Autocomplete onPlaceChanged={handlePlaceChanged} onLoad={onLoad} >
+      <InputBase placeholder={placeholder} onKeyDown={handleSearchKeyDown} fullWidth />
     </Autocomplete>
   );
 }
