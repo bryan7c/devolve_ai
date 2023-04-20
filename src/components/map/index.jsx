@@ -16,10 +16,6 @@ function MapWithSearch({ locations, destination, isLoaded }) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
         const pos = new window.google.maps.LatLng(latitude, longitude);
-        // const marker = new window.google.maps.Marker({
-        //   position: pos,
-        //   map: map,
-        // });
         setOrigin({ lat: latitude, lng: longitude });
         map.setCenter(pos);
         map.setZoom(15);
