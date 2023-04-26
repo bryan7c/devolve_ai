@@ -20,7 +20,6 @@
     "dayjs": "^1.11.7",
     "mongoose": "latest",
     "next": "latest",
-    "nominatim-browser": "^2.1.0",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest"

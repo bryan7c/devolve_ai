@@ -1,8 +1,11 @@
 import { formatDate } from "@/src/utils/date";
-import { Card, CardHeader, CardContent, Typography, Grid, Chip } from "@mui/material";
+import { Card, CardHeader, CardContent, Typography, Grid, Chip, IconButton, Button } from "@mui/material";
 import returnedItemStyle from "./Returned.module.css";
+import { LocationOn } from "@mui/icons-material";
+import { useRouter } from "next/router";
 
 function CardReturnedItem({ returnedItem, action }) {
+  const router = useRouter();
   const getColor = (status) => {
     switch (status.toLowerCase()) {
       case "em andamento":
@@ -13,6 +16,11 @@ function CardReturnedItem({ returnedItem, action }) {
         return "secondary";
     }
   };
+
+  function trackReturn(returnedItemId) {
+    router.push(`/acompanhar/${returnedItemId}`)
+  }
+
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
       <Card>
@@ -28,16 +36,20 @@ function CardReturnedItem({ returnedItem, action }) {
                 Status: {returnedItem.status}
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} p={2} alignItems={"center"} container direction={"column"} alignContent={"stretch"}>
+              {returnedItem.status == "Em andamento" ?
+              <Button color="info" variant="outlined" onClick={() => trackReturn(returnedItem._id)} endIcon={<LocationOn />}>
+                Acompanhar
+              </Button> : 
               <Typography
-                margin=".7em 0"
-                textAlign="center"
+                align="center"
                 color="text.secondary"
                 fontSize="20px"
                 fontWeight={600}
               >
                 {formatDate(returnedItem.dataLimite, {separator:' - ', monthString: true})}
               </Typography>
+              }
             </Grid>
           </Grid>
           <Grid container justifyContent="space-between">

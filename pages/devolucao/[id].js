@@ -13,29 +13,32 @@ import dynamic from "next/dynamic";
 import {
   MapResultContainer,
   MapResultItem,
-} from "@/src/components/map/locationResultItem";
+} from "@/src/components/Map/locationResultItem";
 import { useLoadScript } from "@react-google-maps/api";
-const Map = dynamic(() => import("@/src/components/map/index"), { ssr: false });
+
+const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
 const AutoCompleteLocation = dynamic(
-  () => import("@/src/components/map/AutoCompleteLocation"),
+  () => import("@/src/components/Map/AutoCompleteLocation"),
   { ssr: false }
 );
 
 export async function getServerSideProps({ query }) {
   const id = query.id.toString();
   const baseUrl = process.env.API_URL;
+  const googleKey = process.env.GOOGLE_MAP_KEY;
   const url = `${baseUrl}/returned?id=${id}`;
   const returnedItem = await fetch(url).then((response) => response.json());
-
+  
   return {
     props: {
       returnedItem: returnedItem[0],
+      googleKey
     },
   };
 }
 
 const libraries = ["places"];
-function ReturnedPage({ returnedItem }) {
+function ReturnedPage({ returnedItem, googleKey }) {
   const [returnedItemDate, setReturnedItemDate] = useState(
     dayjs(returnedItem.dataLimite)
   );
@@ -65,9 +68,10 @@ function ReturnedPage({ returnedItem }) {
     setReturnedItemDate(newDate);
     returnedItem.dataLimite = newDate.$d;
   }
+  
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDEI0-FS-iJl25mu23dSfFLzodOZZ4Vr3k",
+    googleMapsApiKey: googleKey,
     libraries: libraries,
     id: "google-map-script",
   });

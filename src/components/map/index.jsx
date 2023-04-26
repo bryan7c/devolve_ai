@@ -32,7 +32,7 @@ function MapWithSearch({ locations, destination, isLoaded }) {
   
   const onDirectionsChanged = () => {
     setDirections(null);
-    if (!window.google ) {
+    if (!window.google || !origin || !destination) {
       return null;
     }
     const directionsService = new window.google.maps.DirectionsService();
@@ -62,7 +62,6 @@ function MapWithSearch({ locations, destination, isLoaded }) {
             width: "100%",
             height: "100%",
           }}
-          center={origin}
           onLoad={onLoad}
           zoom={10}
           onUnmount={onUnmount}

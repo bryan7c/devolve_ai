@@ -15,10 +15,7 @@ import Link from "next/link";
 import LogoIcon from "@/src/components/LogoIcon";
 
 const pages = ["Products", "Pricing", "Blog"];
-const menuList = [
-  { url: "/", label: "Home" },
-  { url: "/devolucao", label: "Devoluções" },
-];
+const menuList = [];
 
 const settings = ["Perfil", "Sair"];
 
