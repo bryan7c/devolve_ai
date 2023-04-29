@@ -12,7 +12,7 @@ const getReturnedItems = async (returnedItem = {}) => {
 };
 
 // Função para criar uma nova devolução
-const creteReturnedItem = async (devolucao) => {
+const createReturnedItem = async (devolucao) => {
   return await fetch("/api/returned", {
     method: "POST",
     headers: {
@@ -62,5 +62,5 @@ module.exports = {
   updateReturnedItem,
   deleteReturnedItem,
   getReturnedItems,
-  creteReturnedItem,
+  createReturnedItem,
 };

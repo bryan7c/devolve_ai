@@ -3,24 +3,17 @@ import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
 import { updateReturnedItem } from "@/src/services/ReturnedService";
-import { Button, Grid, IconButton, Paper } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Button, Grid, Paper } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
-import {
-  MapResultContainer,
-  MapResultItem,
-} from "@/src/components/Map/locationResultItem";
+import { LocationSearchResultContainer, LocationSearchResultItem } from "@/src/components/Autocomplete/locationResultItem";
 import { useLoadScript } from "@react-google-maps/api";
+import InputSearchLocation from "@/src/components/Autocomplete/InputSearchLocation";
 
 const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
-const AutoCompleteLocation = dynamic(
-  () => import("@/src/components/Map/AutoCompleteLocation"),
-  { ssr: false }
-);
 
 export async function getServerSideProps({ query }) {
   const id = query.id.toString();
@@ -92,27 +85,13 @@ function ReturnedPage({ returnedItem, googleKey }) {
         }}
       >
         <Grid container spacing={2} sx={{ height: "100%" }} flexDirection={"column"}>
-          <Grid container item xs={"auto"}>
-            <Grid item xs={"auto"}>
-              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-                <Search />
-              </IconButton>
-            </Grid>
-            <Grid item xs sx={{ p: "10px" }}>
-              <AutoCompleteLocation
-                placeholder="Pesquisar devolução"
-                onPlaceChanged={onPlaceChanged}
-                isLoaded={isLoaded}
-                onResult={onResult}
-              />
-            </Grid>
-          </Grid>
+          <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
           <Grid container item xs>
             <Grid container item xs={2} spacing={2} flexDirection={"column"}>
               <Grid item xs>
-                <MapResultContainer id="map">
+                <LocationSearchResultContainer>
                   {results.map((result) => (
-                    <MapResultItem
+                    <LocationSearchResultItem
                       key={result.place_id}
                       onClick={() => setDestination(result)}
                       groupName={"returnedLoc"}
@@ -120,7 +99,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
                       subtitle="R$14,20"
                     />
                   ))}
-                </MapResultContainer>
+                </LocationSearchResultContainer>
               </Grid>
               {/* {JSON.stringify(returnedItem)} */}
               <Grid item xs={"auto"}>

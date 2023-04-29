@@ -14,9 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Link from "next/link";
 import LogoIcon from "@/src/components/LogoIcon";
 
-const pages = ["Products", "Pricing", "Blog"];
-const menuList = [];
-
+const menuList = [{"label": "Criar devolução", "url": "/devolucao"}];
 const settings = ["Perfil", "Sair"];
 
 function ResponsiveAppBar() {
@@ -60,7 +58,6 @@ function ResponsiveAppBar() {
           >
             DEVOLVE_AI
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -130,7 +127,6 @@ function ResponsiveAppBar() {
               </Link>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Configuração">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

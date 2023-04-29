@@ -1,8 +1,6 @@
-const { Title } = require("@mui/icons-material");
-import ResultMapStyle from "./ResultMap.module.css";
 import { Grid, Typography } from "@mui/material";
 
-const MapResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
+const LocationSearchResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
   const uniqueId = Math.random().toString(36).substr(2, 9);
 
   return (
@@ -13,7 +11,7 @@ const MapResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
       flexWrap={"nowrap"}
       direction={"row"}
       onClick={onClick}
-      className={ResultMapStyle.resultItem}
+      pb={1}
     >
       <Grid item xs={"auto"}>
         <input type="radio" id={`result-map-id-${uniqueId}`} name={groupName} />
@@ -32,7 +30,7 @@ const MapResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
   );
 };
 
-const MapResultContainer = ({ children }) => {
+const LocationSearchResultContainer = ({ children }) => {
   return (
     <Grid container item direction={"column"} xs={12}>
       {children}
@@ -40,4 +38,4 @@ const MapResultContainer = ({ children }) => {
   );
 };
 
-export { MapResultItem, MapResultContainer };
+export { LocationSearchResultItem, LocationSearchResultContainer };
