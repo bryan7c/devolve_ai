@@ -49,33 +49,54 @@ function ReturnedPage({ returnedItem, googleKey }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid container minHeight={"100vh"} sx={{border: "solid 1px red"}}>
-        <Grid item xs={12} sx={{border: "solid 1px red"}}>
+      <Grid container item minHeight={"100vh"} flexDirection={"column"}>
+        <Grid item xs>
           <Map
             locations={locations}
             destination={destination}
             isLoaded={isLoaded}
           />
         </Grid>
-        <Grid container item xs={12} alignContent="center" sx={{border: "solid 1px red"}}>
-          <Grid item xs={4} sx={{border: "solid 1px red"}}>
-            <ProfileFeedback title={"Bryan Marvila"} rating={3.5} img={"/img/jose.png"} />
+        <Grid
+          container
+          item
+          xs={"auto"}
+          alignContent="center"
+          p={2}
+          spacing={4}
+        >
+          <Grid item xs={"auto"}>
+            <ProfileFeedback
+              title={"Bryan Marvila"}
+              rating={3.5}
+              img={"/img/jose.png"}
+            />
           </Grid>
-          <Grid container item flexDirection="column" xs justifyContent="center" sx={{border: "solid 1px red"}}>
+          <Grid
+            container
+            item
+            flexDirection="column"
+            xs
+            justifyContent="center"
+          >
             <Typography>O devolvedor chegará em</Typography>
-            <Typography display="inline" sx={{fontSize: "2em", fontWeight: "bolder"}} color="primary">20<Typography display="inline">min</Typography></Typography>
-            
-          </Grid>
-          <Grid container item xs="auto" alignContent="center" sx={{border: "solid 1px red"}}>
-            <Button>
-              ENVIAR MENSAGEM
-            </Button>
-            <Button
-              variant="contained"
-              color="warning"
+            <Typography
+              display="inline"
+              sx={{ fontSize: "2em", fontWeight: "bolder" }}
+              color="primary"
             >
-              CANCELAR ENTREGA
-            </Button>
+              20<Typography display="inline">min</Typography>
+            </Typography>
+          </Grid>
+          <Grid container xs="auto" alignContent="center">
+            <Grid item>
+              <Button>ENVIAR MENSAGEM</Button>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="warning">
+                CANCELAR ENTREGA
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>

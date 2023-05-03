@@ -4,8 +4,8 @@ const { Grid, Avatar, Typography, Rating } = require("@mui/material");
 
 function ProfileFeedback({title, rating, img}) {
   return (
-    <Grid container item xs={12} className="profile-feedback" p={3} spacing={2}>
-      <Grid item xs={4}>
+    <Grid container item xs={12} spacing={2}>
+      <Grid item xs={"auto"} p={"5px"}>
         <Avatar
           sx={{
             width: "75px",
@@ -17,14 +17,18 @@ function ProfileFeedback({title, rating, img}) {
           src={img}
         />
       </Grid>
-      <Grid container item direction={"column"} xs={8}>
-        <Grid container item justifyContent={"space-between"}>
+      <Grid item xs={"auto"}>
+        <Grid container spacing={2}>
+          <Grid item>
             <Typography noWrap={true} variant="body1" fontWeight={500}>
               {title}
             </Typography>
+          </Grid>
+          <Grid item>
             <Typography variant="overline">{rating}</Typography>
+          </Grid>
         </Grid>
-        <Grid container item xs>
+        <Grid item xs={12}>
             <Rating name="half-rating" defaultValue={rating} precision={0.5} />
         </Grid>
       </Grid>
