@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, Typography, Button } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
@@ -66,7 +66,23 @@ function ReturnedPage({ returnedItem, googleKey }) {
         </Grid>
         <Grid container item>
           <Grid item xs={4}>
-            <ProfileFeedback />
+            <ProfileFeedback title={"Bryan Marvila"} rating={3.5} img={"/img/jose.png"} />
+          </Grid>
+          <Grid container item flexDirection="column" xs justifyContent="center">
+            <Typography>O devolvedor chegará em</Typography>
+            <Typography display="inline" sx={{fontSize: "2em", fontWeight: "bolder"}} color="primary">20<Typography display="inline">min</Typography></Typography>
+            
+          </Grid>
+          <Grid container item xs="auto" alignContent="center">
+            <Button>
+              ENVIAR MENSAGEM
+            </Button>
+            <Button
+              variant="contained"
+              color="warning"
+            >
+              CANCELAR ENTREGA
+            </Button>
           </Grid>
         </Grid>
       </Paper>

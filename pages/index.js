@@ -24,7 +24,7 @@ import CardReturnedItem from "@/src/components/CardReturnedItem/CardReturnedItem
 import ActionMenu from "@/src/components/ActionMenu/ActionMenu";
 import { Search } from "@mui/icons-material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import "dayjs/locale/pt-br";
 
@@ -49,9 +49,7 @@ function ReturnedPage() {
       // Caso contrário, filtre as devoluções com base no valor de pesquisa
       setReturnedList(
         originalReturnedList.filter((returnedItem) =>
-          returnedItem.titulo
-            .toLowerCase()
-            .includes(searchValue.toLowerCase())
+          returnedItem.titulo.toLowerCase().includes(searchValue.toLowerCase())
         )
       );
     }
@@ -79,7 +77,7 @@ function ReturnedPage() {
   }, []);
 
   const handleEdit = (returnedItemId) => {
-    router.push(`/devolucao/${returnedItemId}`)
+    router.push(`/devolucao/${returnedItemId}`);
   };
 
   const handleDelete = () => {
@@ -137,79 +135,92 @@ function ReturnedPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Paper
-        sx={{
-          p: "2px 4px",
-          display: "flex",
-          alignItems: "center",
-          marginBottom: 2,
-        }}
-      >
-        <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-          <Search />
-        </IconButton>
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Pesquisar devolução"
-          value={searchValue}
-          onChange={handleSearchChange}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              handleSearchSubmit();
-            }
-          }}
-        />
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
-          <DatePicker
-            label="Data limite"
-            onChange={(newDate) => handleDateFilter(newDate)}
-          />
-        </LocalizationProvider>
-        <Chip
-          color="info"
-          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
-          size="small"
-          data-status="Em andamento"
-          sx={{ height: 20, width: 40, margin: "0 .3em" }}
-          variant="solid"
-        />
-        <Chip
-          color="secondary"
-          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
-          size="small"
-          data-status="Aguardando"
-          sx={{ height: 20, width: 40, margin: "0 .3em" }}
-          variant="solid"
-        />
-        <Chip
-          color="success"
-          onClick={(event) => handleStatusFilter(event.target.dataset.status)}
-          size="small"
-          data-status="Finalizado"
-          sx={{ height: 20, width: 40, margin: "0 .3em" }}
-          variant="solid"
-        />
-      </Paper>
-      <Grid container spacing={2}>
-        {returnedList.map((returnedItem) => (
-          <CardReturnedItem
-            key={returnedItem._id}
-            returnedItem={returnedItem}
-            action={
-              <ActionMenu>
-                <MenuItem onClick={() => handleEdit(returnedItem._id)}>
-                  Editar
-                </MenuItem>
-                <MenuItem
-                  onClick={() => handleDeleteConfirmation(returnedItem._id)}
-                >
-                  Excluir
-                </MenuItem>
-              </ActionMenu>
-            }
-          />
-        ))}
+      <Grid item spacing={2} flexDirection={"column"}>
+        <Grid item xs="auto">
+          <Paper
+            sx={{
+              p: "2px 4px",
+              display: "flex",
+              alignItems: "center",
+              marginBottom: 2,
+            }}
+          >
+            <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+              <Search />
+            </IconButton>
+            <InputBase
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Pesquisar devolução"
+              value={searchValue}
+              onChange={handleSearchChange}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  handleSearchSubmit();
+                }
+              }}
+            />
+            <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              adapterLocale="pt-br"
+            >
+              <DatePicker
+                label="Data limite"
+                onChange={(newDate) => handleDateFilter(newDate)}
+              />
+            </LocalizationProvider>
+            <Chip
+              color="info"
+              onClick={(event) =>
+                handleStatusFilter(event.target.dataset.status)
+              }
+              size="small"
+              data-status="Em andamento"
+              sx={{ height: 20, width: 40, margin: "0 .3em" }}
+              variant="solid"
+            />
+            <Chip
+              color="secondary"
+              onClick={(event) =>
+                handleStatusFilter(event.target.dataset.status)
+              }
+              size="small"
+              data-status="Aguardando"
+              sx={{ height: 20, width: 40, margin: "0 .3em" }}
+              variant="solid"
+            />
+            <Chip
+              color="success"
+              onClick={(event) =>
+                handleStatusFilter(event.target.dataset.status)
+              }
+              size="small"
+              data-status="Finalizado"
+              sx={{ height: 20, width: 40, margin: "0 .3em" }}
+              variant="solid"
+            />
+          </Paper>
+        </Grid>
+        <Grid container item spacing={2}>
+          {returnedList.map((returnedItem) => (
+            <CardReturnedItem
+              key={returnedItem._id}
+              returnedItem={returnedItem}
+              action={
+                <ActionMenu>
+                  <MenuItem onClick={() => handleEdit(returnedItem._id)}>
+                    Editar
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => handleDeleteConfirmation(returnedItem._id)}
+                  >
+                    Excluir
+                  </MenuItem>
+                </ActionMenu>
+              }
+            />
+          ))}
+        </Grid>
       </Grid>
       <Dialog
         open={open}

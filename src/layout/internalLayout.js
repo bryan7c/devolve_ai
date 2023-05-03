@@ -3,11 +3,11 @@ import { Grid } from "@mui/material";
 
 export function InternalLayout({ children }) {
   return (
-    <Grid container spacing={0} height={"100vh"} direction={"column"}>
+    <Grid container spacing={0} minHeight={"100vh"} direction={"column"}>
       <Grid item xs={"auto"}>
         <Header />
       </Grid>
-      <Grid item sx={{ flexGrow: 1, margin: '1em' }}>
+      <Grid item sx={{ margin: '1em' }}>
         {children}
       </Grid>
     </Grid>

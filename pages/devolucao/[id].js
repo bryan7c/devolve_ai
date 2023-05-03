@@ -101,7 +101,6 @@ function ReturnedPage({ returnedItem, googleKey }) {
                   ))}
                 </LocationSearchResultContainer>
               </Grid>
-              {/* {JSON.stringify(returnedItem)} */}
               <Grid item xs={"auto"}>
                 <LocalizationProvider
                   dateAdapter={AdapterDayjs}
