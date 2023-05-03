@@ -88,7 +88,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
               20<Typography display="inline">min</Typography>
             </Typography>
           </Grid>
-          <Grid container xs="auto" alignContent="center">
+          <Grid container item xs="auto" alignContent="center">
             <Grid item>
               <Button>ENVIAR MENSAGEM</Button>
             </Grid>
