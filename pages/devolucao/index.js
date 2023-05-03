@@ -50,9 +50,7 @@ function ReturnedPage({ googleKey }) {
   };
 
   function handleCancel() {
-    updateReturnedItem(returnedItem).then(() => {
       router.push("/");
-    });
   };
 
   function onPlaceChanged(place) {

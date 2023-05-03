@@ -1,8 +1,8 @@
-import { StarOutline, StarRate } from "@mui/icons-material";
+import { StarOutline, StarRate, StarRateTwoTone } from "@mui/icons-material";
 
-const { Grid, Avatar, Typography } = require("@mui/material");
+const { Grid, Avatar, Typography, Rating } = require("@mui/material");
 
-function ProfileFeedback(props) {
+function ProfileFeedback({title, rating, img}) {
   return (
     <Grid container item xs={12} className="profile-feedback" p={3} spacing={2}>
       <Grid item xs={4}>
@@ -14,22 +14,18 @@ function ProfileFeedback(props) {
             boxShadow: "0 0 0 5px #31C4EA",
           }}
           alt="Bryan Marvila"
-          src="/img/jose.png"
+          src={img}
         />
       </Grid>
       <Grid container item direction={"column"} xs={8}>
         <Grid container item justifyContent={"space-between"}>
             <Typography noWrap={true} variant="body1" fontWeight={500}>
-              Rafael Silva
+              {title}
             </Typography>
-            <Typography variant="overline">4,8</Typography>
+            <Typography variant="overline">{rating}</Typography>
         </Grid>
         <Grid container item xs>
-          <StarRate color="secondary" sx={{fontSize: "1.9em"}} />
-          <StarRate color="secondary" sx={{fontSize: "1.9em"}} />
-          <StarRate color="secondary" sx={{fontSize: "1.9em"}} />
-          <StarRate color="secondary" sx={{fontSize: "1.9em"}} />
-          <StarOutline color="gray" sx={{fontSize: "1.9em"}} />
+            <Rating name="half-rating" defaultValue={rating} precision={0.5} />
         </Grid>
       </Grid>
     </Grid>

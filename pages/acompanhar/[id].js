@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { Grid, Paper, Typography, Button } from "@mui/material";
+import { Grid, Paper, Typography, Button, Box } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
@@ -49,31 +49,24 @@ function ReturnedPage({ returnedItem, googleKey }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Paper
-        elevation={3}
-        sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <Grid item flexBasis={"100%"}>
+      <Grid container minHeight={"100vh"} sx={{border: "solid 1px red"}}>
+        <Grid item xs={12} sx={{border: "solid 1px red"}}>
           <Map
             locations={locations}
             destination={destination}
             isLoaded={isLoaded}
           />
         </Grid>
-        <Grid container item>
-          <Grid item xs={4}>
+        <Grid container item xs={12} alignContent="center" sx={{border: "solid 1px red"}}>
+          <Grid item xs={4} sx={{border: "solid 1px red"}}>
             <ProfileFeedback title={"Bryan Marvila"} rating={3.5} img={"/img/jose.png"} />
           </Grid>
-          <Grid container item flexDirection="column" xs justifyContent="center">
+          <Grid container item flexDirection="column" xs justifyContent="center" sx={{border: "solid 1px red"}}>
             <Typography>O devolvedor chegará em</Typography>
             <Typography display="inline" sx={{fontSize: "2em", fontWeight: "bolder"}} color="primary">20<Typography display="inline">min</Typography></Typography>
             
           </Grid>
-          <Grid container item xs="auto" alignContent="center">
+          <Grid container item xs="auto" alignContent="center" sx={{border: "solid 1px red"}}>
             <Button>
               ENVIAR MENSAGEM
             </Button>
@@ -85,7 +78,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
             </Button>
           </Grid>
         </Grid>
-      </Paper>
+      </Grid>
     </>
   );
 }
