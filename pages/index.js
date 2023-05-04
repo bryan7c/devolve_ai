@@ -127,6 +127,11 @@ function ReturnedPage() {
     }
   };
 
+  const showMenu = status => {
+    const showMenuByStatusList = ["Aguardando"];
+    return showMenuByStatusList.includes(status);
+  }
+
   return (
     <>
       <Head>
@@ -207,6 +212,7 @@ function ReturnedPage() {
               key={returnedItem._id}
               returnedItem={returnedItem}
               action={
+                showMenu(returnedItem.status) &&
                 <ActionMenu>
                   <MenuItem onClick={() => handleEdit(returnedItem._id)}>
                     Editar

@@ -84,11 +84,10 @@ function ReturnedPage({ googleKey }) {
       <Paper
         elevation={3}
         sx={{
-          p: "1em",
-          height: "100%",
+          p: "1em"
         }}
       >
-        <Grid container spacing={2} sx={{ height: "100%" }} flexDirection={"column"}>
+        <Grid container spacing={2} sx={{minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
           <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
           <Grid container item xs>
             <Grid container item xs={3} spacing={2} flexDirection={"column"}>
@@ -123,6 +122,7 @@ function ReturnedPage({ googleKey }) {
                 xs={"auto"}
                 justifyContent={"space-evenly"}
                 flexDirection={"row"}
+               
               >
                 <Button
                   variant="text"
@@ -148,7 +148,7 @@ function ReturnedPage({ googleKey }) {
               <Map
                 locations={locations}
                 destination={destination}
-                isLoaded={isLoaded}
+                loadScript={isLoaded}
               />
             </Grid>
           </Grid>

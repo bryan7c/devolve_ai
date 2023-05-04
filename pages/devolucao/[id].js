@@ -81,10 +81,9 @@ function ReturnedPage({ returnedItem, googleKey }) {
         elevation={3}
         sx={{
           p: "1em",
-          height: "100%",
         }}
       >
-        <Grid container spacing={2} sx={{ height: "100%" }} flexDirection={"column"}>
+        <Grid container spacing={2} sx={{ minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
           <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
           <Grid container item xs>
             <Grid container item xs={2} spacing={2} flexDirection={"column"}>
@@ -135,7 +134,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
               <Map
                 locations={locations}
                 destination={destination}
-                isLoaded={isLoaded}
+                loadScript={isLoaded}
               />
             </Grid>
           </Grid>
