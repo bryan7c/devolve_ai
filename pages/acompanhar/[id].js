@@ -80,14 +80,19 @@ function ReturnedPage({ returnedItem, googleKey }) {
             xs
             justifyContent="center"
           >
-            <Typography>O devolvedor chegará em</Typography>
-            <Typography
-              display="inline"
-              sx={{ fontSize: "2em", fontWeight: "bolder" }}
-              color="primary"
-            >
-              20<Typography display="inline">min</Typography>
-            </Typography>
+            <Grid item>
+              <Typography>O devolvedor chegará em</Typography>
+            </Grid>
+            <Grid item>
+              <Typography
+                display="inline"
+                sx={{ fontSize: "2em", fontWeight: "bolder" }}
+                color="primary"
+              >
+                20
+              </Typography>
+              <Typography display="inline">min</Typography>
+            </Grid>
           </Grid>
           <Grid container item xs="auto" alignContent="center">
             <Grid item>
