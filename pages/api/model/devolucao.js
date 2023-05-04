@@ -5,7 +5,7 @@ const devolucaoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  coordenadas: {
+  destino: {
     type: Object,
   },
   status: {

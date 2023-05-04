@@ -37,11 +37,11 @@ function ReturnedPage({ returnedItem, googleKey }) {
   );
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [destination, setDestination] = useState(returnedItem.coordenadas);
+  const [destination, setDestination] = useState(returnedItem.destino);
   const router = useRouter();
 
   const handleSave = async () => {
-    returnedItem.coordenadas = destination;
+    returnedItem.destino = destination;
 
     updateReturnedItem(returnedItem).then(() => {
       router.back();

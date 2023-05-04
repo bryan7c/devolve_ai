@@ -37,7 +37,7 @@ function ReturnedPage({ googleKey }) {
       titulo: "Teste",
       descricao: "",
       dataLimite: returnedItemDate.$d,
-      coordenadas: destination,
+      destino: destination,
       devolvedor: "6431d14f17fb52bbee2f6243",
       usuario: "6431d68e17fb52bbee2f6268",
       status: "Aguardando",
@@ -45,7 +45,7 @@ function ReturnedPage({ googleKey }) {
     }
 
     createReturnedItem(returnedItem).then(() => {
-      router.back();
+      router.push("/");
     });
   };
 

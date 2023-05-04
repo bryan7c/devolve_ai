@@ -29,7 +29,7 @@ export async function getServerSideProps({ query }) {
 const libraries = ["places"];
 function ReturnedPage({ returnedItem, googleKey }) {
   const [locations, setLocations] = useState([]);
-  const [destination, setDestination] = useState(returnedItem.coordenadas);
+  const [destination, setDestination] = useState(returnedItem.destino);
   const router = useRouter();
 
   function oncancel() {

@@ -4,7 +4,7 @@ import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
   async criarDevolucao(req, res) {
-    const { titulo, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     // Converter a data de string para objeto Date
     const dataObjeto = new Date(dataLimite);
@@ -20,7 +20,7 @@ module.exports = {
         status,
         devolvedor,
         usuario,
-        coordenadas
+        destino
       });
       const response = Devolucao.create(devolucao);
 
@@ -32,7 +32,7 @@ module.exports = {
 
   async atualizarDevolucao(req, res) {
     const { id } = req.query;
-    const { titulo, coordenadas, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     try {
       const devolucaoAntiga = await Devolucao.findById(id);
@@ -60,8 +60,8 @@ module.exports = {
       if (usuario) {
         devolucaoAtualizada.usuario = usuario;
       }
-      if (coordenadas) {
-        devolucaoAtualizada.coordenadas = coordenadas;
+      if (destino) {
+        devolucaoAtualizada.destino = destino;
       }
 
       const devolucao = await Devolucao.findByIdAndUpdate(
@@ -92,7 +92,7 @@ module.exports = {
       status,
       valor,
       titulo,
-      coordenadas,
+      destino,
       dataInicial,
       dataLimite,
       devolvedor,
@@ -139,9 +139,9 @@ module.exports = {
       query.status = status;
     }
 
-    // Busca por coordenadas
-    if (coordenadas) {
-      query.coordenadas = coordenadas;
+    // Busca por destino
+    if (destino) {
+      query.destino = destino;
     }
 
     // Busca pelo id
