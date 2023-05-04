@@ -2,7 +2,7 @@ import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { Grid, Paper, Typography, Button, Box } from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
@@ -28,12 +28,13 @@ export async function getServerSideProps({ query }) {
 
 const libraries = ["places"];
 function ReturnedPage({ returnedItem, googleKey }) {
-  const [returnedItemDate, setReturnedItemDate] = useState(
-    dayjs(returnedItem.dataLimite)
-  );
   const [locations, setLocations] = useState([]);
   const [destination, setDestination] = useState(returnedItem.coordenadas);
   const router = useRouter();
+
+  function oncancel() {
+    router.back();
+  };
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: googleKey,
@@ -54,7 +55,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
           <Map
             locations={locations}
             destination={destination}
-            isLoaded={isLoaded}
+            loadScript={isLoaded}
           />
         </Grid>
         <Grid

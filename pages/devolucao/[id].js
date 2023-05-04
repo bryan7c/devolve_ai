@@ -44,7 +44,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
     returnedItem.coordenadas = destination;
 
     updateReturnedItem(returnedItem).then(() => {
-      router.push("/");
+      router.back();
     });
   };
 

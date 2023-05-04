@@ -45,12 +45,12 @@ function ReturnedPage({ googleKey }) {
     }
 
     createReturnedItem(returnedItem).then(() => {
-      router.push("/");
+      router.back();
     });
   };
 
   function handleCancel() {
-      router.push("/");
+      router.back();
   };
 
   function onPlaceChanged(place) {
