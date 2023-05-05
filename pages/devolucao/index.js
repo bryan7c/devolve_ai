@@ -30,6 +30,7 @@ function ReturnedPage({ googleKey }) {
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
   const [destination, setDestination] = useState(null);
+  const [origin, setOrigin] = useState(null);
   const router = useRouter();
   
   function handleSave() {
@@ -38,6 +39,7 @@ function ReturnedPage({ googleKey }) {
       descricao: "",
       dataLimite: returnedItemDate.$d,
       destino: destination,
+      origen: origin,
       devolvedor: "6431d14f17fb52bbee2f6243",
       usuario: "6431d68e17fb52bbee2f6268",
       status: "Aguardando",
@@ -88,6 +90,7 @@ function ReturnedPage({ googleKey }) {
         }}
       >
         <Grid container spacing={2} sx={{minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
+        {JSON.stringify({origin, destination})}
           <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
           <Grid container item xs>
             <Grid container item xs={3} spacing={2} flexDirection={"column"}>
@@ -149,6 +152,7 @@ function ReturnedPage({ googleKey }) {
                 locations={locations}
                 destination={destination}
                 loadScript={isLoaded}
+                originChanged={(currentLocation) => setOrigin(currentLocation)}
               />
             </Grid>
           </Grid>

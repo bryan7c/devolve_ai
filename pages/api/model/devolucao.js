@@ -5,6 +5,9 @@ const devolucaoSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  origem: {
+    type: Object,
+  },
   destino: {
     type: Object,
   },

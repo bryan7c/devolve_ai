@@ -30,6 +30,7 @@ const libraries = ["places"];
 function ReturnedPage({ returnedItem, googleKey }) {
   const [locations, setLocations] = useState([]);
   const [destination, setDestination] = useState(returnedItem.destino);
+  const [origin, setOrigin] = useState(returnedItem.origem);
   const router = useRouter();
 
   function oncancel() {

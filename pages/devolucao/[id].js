@@ -38,10 +38,12 @@ function ReturnedPage({ returnedItem, googleKey }) {
   const [results, setResults] = useState([]);
   const [locations, setLocations] = useState([]);
   const [destination, setDestination] = useState(returnedItem.destino);
+  const [origin, setOrigin] = useState(returnedItem.origem);
   const router = useRouter();
 
   const handleSave = async () => {
     returnedItem.destino = destination;
+    returnedItem.origem = origin;
 
     updateReturnedItem(returnedItem).then(() => {
       router.back();
@@ -135,6 +137,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
                 locations={locations}
                 destination={destination}
                 loadScript={isLoaded}
+                originChanged={(currentLocation) => setOrigin(currentLocation)}
               />
             </Grid>
           </Grid>

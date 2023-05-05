@@ -3,8 +3,8 @@ import Devolvedor from "@/pages/api/model/devolvedor";
 import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
-  async criarDevolucao(req, res) {
-    const { titulo, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
+  async createDevolucao(req, res) {
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     // Converter a data de string para objeto Date
     const dataObjeto = new Date(dataLimite);
@@ -20,6 +20,7 @@ module.exports = {
         status,
         devolvedor,
         usuario,
+        origem,
         destino
       });
       const response = Devolucao.create(devolucao);
@@ -32,7 +33,7 @@ module.exports = {
 
   async atualizarDevolucao(req, res) {
     const { id } = req.query;
-    const { titulo, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
 
     try {
       const devolucaoAntiga = await Devolucao.findById(id);
@@ -59,6 +60,9 @@ module.exports = {
       }
       if (usuario) {
         devolucaoAtualizada.usuario = usuario;
+      }
+      if (origem) {
+        devolucaoAtualizada.origem = origem;
       }
       if (destino) {
         devolucaoAtualizada.destino = destino;
@@ -92,6 +96,7 @@ module.exports = {
       status,
       valor,
       titulo,
+      origem,
       destino,
       dataInicial,
       dataLimite,
@@ -139,6 +144,11 @@ module.exports = {
       query.status = status;
     }
 
+    // Busca por origem
+    if (origem) {
+      query.origem = origem;
+    }
+    
     // Busca por destino
     if (destino) {
       query.destino = destino;
