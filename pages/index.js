@@ -140,7 +140,7 @@ function ReturnedPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid item spacing={2} flexDirection={"column"}>
+      <Grid item flexDirection={"column"}>
         <Grid item xs="auto">
           <Paper
             sx={{

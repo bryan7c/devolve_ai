@@ -1,0 +1,251 @@
+[{
+  "_id": {
+    "$oid": "6430ec863e6607a05836d9b1"
+  },
+  "titulo": "Correios",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Aguardando",
+  "valor": 23,
+  "dataLimite": {
+    "$date": "2023-04-15T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ec863e6607a05826d9b1"
+  },
+  "titulo": "Correios",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Em andamento",
+  "valor": 23,
+  "dataLimite": {
+    "$date": "2023-04-15T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ed0d3e6607a05826d9b2"
+  },
+  "titulo": "Loja",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Finalizado",
+  "valor": 50,
+  "dataLimite": {
+    "$date": "2023-04-10T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ed4e3e6607a05826d9b4"
+  },
+  "titulo": "Loja",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Em andamento",
+  "valor": 35,
+  "dataLimite": {
+    "$date": "2023-04-20T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ed693e6607a05826d9b5"
+  },
+  "titulo": "Transportadora",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Aguardando",
+  "valor": 75,
+  "dataLimite": {
+    "$date": "2023-04-13T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6431d14f17fb52bbee2f6243"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ed853e6607a05826d9b6"
+  },
+  "titulo": "Correios",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Finalizado",
+  "valor": 10,
+  "dataLimite": {
+    "$date": "2023-04-22T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ec893e6607a05826d9b3"
+  },
+  "titulo": "Agência Y",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Aguardando",
+  "valor": 75,
+  "dataLimite": {
+    "$date": "2023-04-22T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ed323e6607a05826d9b3"
+  },
+  "titulo": "Transportadora",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Aguardando",
+  "valor": 100,
+  "dataLimite": {
+    "$date": "2023-04-18T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6431d14f17fb52bbee2f6243"
+  },
+  "usuario": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430f18b60ca68622c4b4d83"
+  },
+  "titulo": "Correios",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Finalizado",
+  "valor": 40,
+  "dataLimite": {
+    "$date": "2023-04-25T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6430ec8a3e6607a05826d9b4"
+  },
+  "titulo": "Correios",
+    "origem": {
+      "lat": -23.5635875,
+      "lng": -46.6542524
+  },
+  "destino": {
+      "lat": -23.5635875,
+      "lng": -46.6542525
+  },
+  "status": "Aguardando",
+  "valor": 30,
+  "dataLimite": {
+    "$date": "2023-04-25T03:00:00.000Z"
+  },
+  "devolvedor": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "usuario": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "6431d4f617fb52bbee2f6260"
+  },
+  "nome": "Luiz Henrique",
+  "email": "luiz.henrique@hotmail.com",
+  "telefone": "12925415258",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "nome": "Rafael moura",
+  "email": "rafael@hotmail.com",
+  "telefone": "12925415258",
+  "__v": 0
+}]

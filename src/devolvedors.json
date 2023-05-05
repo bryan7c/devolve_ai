@@ -1,0 +1,19 @@
+[{
+  "_id": {
+    "$oid": "6430e5c899f8b889063eddd1"
+  },
+  "nome": "José Moura",
+  "nota": 2.3,
+  "email": "teste@hotmail.com",
+  "telefone": "12988240873",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6431d14f17fb52bbee2f6243"
+  },
+  "nome": "Bruno Marvila",
+  "nota": 5,
+  "email": "bruno@hotmail.com",
+  "telefone": "12925415258",
+  "__v": 0
+}]

@@ -6,7 +6,7 @@ import {
 } from "@react-google-maps/api";
 
 
-function MapWithSearch({ locations, destination, isLoaded }) {
+function MapWithSearch({ locations, destination, loadScript, originChanged = () => {} }) {
   const [origin, setOrigin] = useState(null);
   const [directions, setDirections] = useState(null);
   const [map, setMap] = useState(null);
@@ -17,6 +17,7 @@ function MapWithSearch({ locations, destination, isLoaded }) {
         const { latitude, longitude } = position.coords;
         const pos = new window.google.maps.LatLng(latitude, longitude);
         setOrigin({ lat: latitude, lng: longitude });
+        originChanged({ lat: latitude, lng: longitude })
         map.setCenter(pos);
         map.setZoom(15);
       });
@@ -56,7 +57,7 @@ function MapWithSearch({ locations, destination, isLoaded }) {
 
   return (
     <>
-      {isLoaded ? (
+      {loadScript ? (
         <GoogleMap
           mapContainerStyle={{
             width: "100%",
