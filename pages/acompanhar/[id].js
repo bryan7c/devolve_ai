@@ -9,7 +9,7 @@ import dynamic from "next/dynamic";
 import { useLoadScript } from "@react-google-maps/api";
 import ProfileFeedback from "@/src/components/Profile/ProfileFeedback";
 
-const Map = dynamic(() => import("@/src/components/Mapa/index"), { ssr: false });
+const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
 
 export async function getServerSideProps({ query }) {
   const id = query.id.toString();
