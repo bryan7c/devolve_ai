@@ -2,7 +2,7 @@ import { Search } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
 import dynamic from "next/dynamic";
 const AutoCompleteLocation = dynamic(
-  () => import("@/src/components/Map/AutoCompleteLocation"),
+  () => import("@/src/components/Mapa/AutoCompleteLocation"),
   { ssr: false }
 );
 

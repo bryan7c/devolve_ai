@@ -13,7 +13,7 @@ import { LocationSearchResultContainer, LocationSearchResultItem } from "@/src/c
 import { useLoadScript } from "@react-google-maps/api";
 import InputSearchLocation from "@/src/components/Autocomplete/InputSearchLocation";
 
-const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
+const Map = dynamic(() => import("@/src/components/Mapa/index"), { ssr: false });
 
 export function getServerSideProps() {
   const googleKey = process.env.GOOGLE_MAP_KEY;
