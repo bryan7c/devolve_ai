@@ -57,6 +57,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
             locations={locations}
             destination={destination}
             loadScript={isLoaded}
+            manualOrigin={returnedItem.origem}
           />
         </Grid>
         <Grid

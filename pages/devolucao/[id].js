@@ -137,6 +137,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
                 locations={locations}
                 destination={destination}
                 loadScript={isLoaded}
+                manualOrigin={origin}
                 originChanged={(currentLocation) => setOrigin(currentLocation)}
               />
             </Grid>
