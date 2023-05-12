@@ -43,45 +43,37 @@ function AutoCompleteLocation({
   }
 
   function handleSearchKeyDown(event) {
-    if (event.key === "Enter") {
-      const query = event.target.value;
-      const service = new window.google.maps.places.AutocompleteService();
-      service.getPlacePredictions({ input: query }, (predictions) => {
-        const placesService = new window.google.maps.places.PlacesService(
-          document.createElement("div")
-        );
-        const promises = predictions.map((prediction) => {
-          return new Promise((resolve, reject) => {
-            placesService.getDetails(
-              { placeId: prediction.place_id },
-              (placeResult, status) => {
-                if (
-                  status === window.google.maps.places.PlacesServiceStatus.OK
-                ) {
-                  const {lat, lng} = placeResult.geometry.location.toJSON();
-                  resolve({
-                    lat,
-                    lng,
-                    description: prediction.description,
-                    name: placeResult.name,
-                    place_id: placeResult.place_id,
-                  });
-                } else {
-                  reject(status);
-                }
-              }
-            );
+    if (event.key !== "Enter") return;
+
+    const query = event.target.value;
+    const service = new window.google.maps.places.AutocompleteService();
+    service.getPlacePredictions({ input: query }, (predictions) => {
+      const placesService = new window.google.maps.places.PlacesService(
+        document.createElement("div")
+      );
+      const promises = predictions.map((prediction) => {
+        return new Promise((resolve, reject) => {
+          placesService.getDetails( { placeId: prediction.place_id }, (placeResult, status) => {
+            if (status !== window.google.maps.places.PlacesServiceStatus.OK)
+              return reject(status);
+
+            const { lat, lng } = placeResult.geometry.location.toJSON();
+            resolve({
+              lat,
+              lng,
+              description: prediction.description,
+              name: placeResult.name,
+              place_id: placeResult.place_id,
+              distance: lat,
+            });
           });
         });
-        Promise.all(promises)
-          .then((results) => {
-            onResult(results);
-          })
-          .catch((status) => {
-            console.log(status);
-          });
       });
-    }
+
+      Promise.all(promises)
+        .then((results) => onResult(results))
+        .catch((status) => console.log(status));
+    });
   }
 
   if (!isLoaded) {
@@ -89,8 +81,12 @@ function AutoCompleteLocation({
   }
 
   return (
-    <Autocomplete onPlaceChanged={handlePlaceChanged} onLoad={onLoad} >
-      <InputBase placeholder={placeholder} onKeyDown={handleSearchKeyDown} fullWidth />
+    <Autocomplete onPlaceChanged={handlePlaceChanged} onLoad={onLoad}>
+      <InputBase
+        placeholder={placeholder}
+        onKeyDown={handleSearchKeyDown}
+        fullWidth
+      />
     </Autocomplete>
   );
 }

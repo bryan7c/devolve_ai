@@ -90,7 +90,6 @@ function ReturnedPage({ googleKey }) {
         }}
       >
         <Grid container spacing={2} sx={{minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
-        {JSON.stringify({origin, destination})}
           <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
           <Grid container item xs>
             <Grid container item xs={3} spacing={2} flexDirection={"column"}>
@@ -102,7 +101,7 @@ function ReturnedPage({ googleKey }) {
                       onClick={() => setDestination(result)}
                       groupName={"returnedLoc"}
                       title={result.name}
-                      subtitle="R$14,20"
+                      subtitle={result.distance}
                     />
                   ))}
                 </LocationSearchResultContainer>

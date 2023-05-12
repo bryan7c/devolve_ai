@@ -127,7 +127,7 @@ function ReturnedPage() {
     }
   };
 
-  const shouldShowMenu = (status) => {
+  const shouldShowEditMenu = (status) => {
     const statusesThatShowMenu = ["Aguardando"];
     return statusesThatShowMenu.includes(status);
   }
@@ -212,11 +212,10 @@ function ReturnedPage() {
               key={returnedItem._id}
               returnedItem={returnedItem}
               action={
-                shouldShowMenu(returnedItem.status) &&
                 <ActionMenu>
-                  <MenuItem onClick={() => handleEdit(returnedItem._id)}>
+                  {shouldShowEditMenu(returnedItem.status) && <MenuItem onClick={() => handleEdit(returnedItem._id)}>
                     Editar
-                  </MenuItem>
+                  </MenuItem>}
                   <MenuItem
                     onClick={() => handleDeleteConfirmation(returnedItem._id)}
                   >
