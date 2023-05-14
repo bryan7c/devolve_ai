@@ -61,7 +61,9 @@
   "dataLimite": {
     "$date": "2023-05-14T15:09:33.444Z"
   },
-  "devolvedor": null,
+  "devolvedor": {
+    "$oid": "6431d14f17fb52bbee2f6243"
+  },
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
   },
@@ -270,7 +272,9 @@
   "altura": 43,
   "comprimento": 3,
   "peso": 433,
-  "devolvedor": null,
+  "devolvedor": {
+    "$oid": "6431d14f17fb52bbee2f6243"
+  },
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
   },

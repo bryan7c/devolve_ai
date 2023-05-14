@@ -44,6 +44,7 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
   const [comprimento, setComprimento] = useState(returnedItem?.comprimento ?? "");
   const [peso, setPeso] = useState(returnedItem?.peso ?? "");
   const [codigo, setCodigo] = useState(returnedItem?.codigo ?? "");
+  const [nota, setNota] = useState(returnedItem?.nota ?? null);
   
   function handleSave() {
     let returnedObject = {
@@ -60,6 +61,7 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
       comprimento,
       peso,
       codigo,
+      nota,
     };
     onSave(returnedObject);
   }

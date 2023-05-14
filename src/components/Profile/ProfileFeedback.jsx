@@ -2,7 +2,8 @@ import { StarOutline, StarRate, StarRateTwoTone } from "@mui/icons-material";
 
 const { Grid, Avatar, Typography, Rating } = require("@mui/material");
 
-function ProfileFeedback({title, rating, img}) {
+function ProfileFeedback({title, rating, img, onRating = () => {}}) {
+
   return (
     <Grid container item xs={12} spacing={2}>
       <Grid item xs={"auto"} p={"5px"}>
@@ -29,7 +30,7 @@ function ProfileFeedback({title, rating, img}) {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-            <Rating name="half-rating" defaultValue={rating} precision={0.5} />
+            <Rating name="half-rating" defaultValue={rating} precision={0.5} onChange={(event, newValue) => {onRating(newValue)}} />
         </Grid>
       </Grid>
     </Grid>

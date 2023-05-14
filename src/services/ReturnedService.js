@@ -1,7 +1,7 @@
 // Função para buscar as devoluções
 const getReturnedItems = async (returnedItem = {}) => {
   const params = new URLSearchParams(returnedItem);
-  const url = `api/returned?${params.toString()}`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/returned?${params.toString()}`;
   return await fetch(url)
     .then((response) => {
       return response.json();
@@ -13,7 +13,7 @@ const getReturnedItems = async (returnedItem = {}) => {
 
 // Função para criar uma nova devolução
 const createReturnedItem = async (devolucao) => {
-  return await fetch("/api/returned", {
+  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/returned`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const createReturnedItem = async (devolucao) => {
 
 // Função para atualizar uma devolução existente
 const updateReturnedItem = async (devolucao) => {
-  return await fetch(`/api/returned/${devolucao._id}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/returned/${devolucao._id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const updateReturnedItem = async (devolucao) => {
 
 // Função para excluir uma devolução
 const deleteReturnedItem = async (devolucaoId) => {
-  return await fetch(`/api/returned/${devolucaoId}`, {
+  return await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/returned/${devolucaoId}`, {
     method: "DELETE",
   })
     .then((response) => {

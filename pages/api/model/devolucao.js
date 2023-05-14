@@ -38,6 +38,12 @@ const devolucaoSchema = new mongoose.Schema({
   peso: {
     type: Number,
   },
+  nota: {
+    type: Number,
+    required: false,
+    decimal: true,
+    default: 0.00
+  },
   devolvedor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Devolvedor',

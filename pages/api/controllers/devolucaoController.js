@@ -4,7 +4,7 @@ import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
   async createDevolucao(req, res) {
-    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso } = req.body;
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso, nota } = req.body;
 
     // Converter a data de string para objeto Date
     const dataObjeto = new Date(dataLimite);
@@ -27,6 +27,7 @@ module.exports = {
         altura: parseFloat(altura),
         comprimento: parseFloat(comprimento),
         peso: parseFloat(peso),
+        nota: parseFloat(nota),
       });
       const response = Devolucao.create(devolucao);
 
@@ -38,7 +39,7 @@ module.exports = {
 
   async atualizarDevolucao(req, res) {
     const { id } = req.query;
-    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso } = req.body;
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso, nota } = req.body;
 
     try {
       const devolucaoAntiga = await Devolucao.findById(id);
@@ -87,6 +88,9 @@ module.exports = {
       if (peso) {
         devolucaoAtualizada.peso = peso;
       }
+      if (nota) {
+        devolucaoAtualizada.nota = nota;
+      }
 
       const devolucao = await Devolucao.findByIdAndUpdate(
         id,
@@ -127,7 +131,8 @@ module.exports = {
       largura,
       altura,
       comprimento,
-      peso
+      peso,
+      nota,
     } = req.query;
 
     let query = {};
@@ -217,6 +222,11 @@ module.exports = {
     // Busca por peso
     if (peso) {
       query.peso = peso;
+    }
+
+    // Busca por nota
+    if (nota) {
+      query.nota = nota;
     }
 
     try {
