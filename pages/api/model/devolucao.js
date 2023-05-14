@@ -23,6 +23,21 @@ const devolucaoSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  codigo: {
+    type: String,
+  },
+  largura: {
+    type: Number,
+  },
+  altura: {
+    type: Number,
+  },
+  comprimento: {
+    type: Number,
+  },
+  peso: {
+    type: Number,
+  },
   devolvedor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Devolvedor',

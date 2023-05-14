@@ -4,7 +4,7 @@ import Usuario from "@/pages/api/model/usuario";
 
 module.exports = {
   async createDevolucao(req, res) {
-    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso } = req.body;
 
     // Converter a data de string para objeto Date
     const dataObjeto = new Date(dataLimite);
@@ -21,7 +21,12 @@ module.exports = {
         devolvedor,
         usuario,
         origem,
-        destino
+        destino,
+        codigo,
+        largura,
+        altura,
+        comprimento,
+        peso
       });
       const response = Devolucao.create(devolucao);
 
@@ -33,7 +38,7 @@ module.exports = {
 
   async atualizarDevolucao(req, res) {
     const { id } = req.query;
-    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario } = req.body;
+    const { titulo, origem, destino, valor, dataLimite, status, devolvedor, usuario, codigo, largura, altura, comprimento, peso } = req.body;
 
     try {
       const devolucaoAntiga = await Devolucao.findById(id);
@@ -66,6 +71,21 @@ module.exports = {
       }
       if (destino) {
         devolucaoAtualizada.destino = destino;
+      }
+      if (codigo) {
+        devolucaoAtualizada.codigo = codigo;
+      }
+      if (largura) {
+        devolucaoAtualizada.largura = largura;
+      }
+      if (altura) {
+        devolucaoAtualizada.altura = altura;
+      }
+      if (comprimento) {
+        devolucaoAtualizada.comprimento = comprimento;
+      }
+      if (peso) {
+        devolucaoAtualizada.peso = peso;
       }
 
       const devolucao = await Devolucao.findByIdAndUpdate(
@@ -103,6 +123,11 @@ module.exports = {
       devolvedor,
       usuario,
       id,
+      codigo,
+      largura,
+      altura,
+      comprimento,
+      peso
     } = req.query;
 
     let query = {};
@@ -167,6 +192,31 @@ module.exports = {
     // Busca por titulo
     if (titulo) {
       query.titulo = titulo;
+    }
+
+    // Busca por codigo
+    if (codigo) {
+      query.codigo = codigo;
+    }
+
+    // Busca por largura
+    if (largura) {
+      query.largura = largura;
+    }
+
+    // Busca por altura
+    if (altura) {
+      query.altura = altura;
+    }
+
+    // Busca por comprimento
+    if (comprimento) {
+      query.comprimento = comprimento;
+    }
+
+    // Busca por peso
+    if (peso) {
+      query.peso = peso;
     }
 
     try {

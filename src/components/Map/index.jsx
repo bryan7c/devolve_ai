@@ -88,7 +88,7 @@ function Map({
           zoom={10}
           onUnmount={onUnmount}
         >
-          {locations &&
+          {!destination && locations &&
             locations.length > 0 &&
             locations.map((location, index) => (
               <Marker
@@ -96,7 +96,7 @@ function Map({
                 position={{ lat: location.lat, lng: location.lng }}
               />
             ))}
-          {origin && <Marker position={{ lat: origin.lat, lng: origin.lng }} />}
+          {!destination && origin && <Marker position={{ lat: origin.lat, lng: origin.lng }} />}
           {destination && (
             <Marker
               position={{ lat: destination.lat, lng: destination.lng }}

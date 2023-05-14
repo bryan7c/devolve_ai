@@ -7,6 +7,7 @@ function AutoCompleteLocation({
   onPlaceChanged,
   isLoaded,
   onResult,
+  origin,
 }) {
   const [searchResult, setSearchResult] = useState(null);
 
@@ -18,26 +19,44 @@ function AutoCompleteLocation({
     if (searchResult != null) {
       const place = searchResult.getPlace();
       if (place.place_id) {
-        const coord = await getCoordinates(place);
-        onPlaceChanged(coord);
+        const location = await getDetailById(place.place_id);
+        onPlaceChanged(location);
       }
     }
   }
 
-  function getCoordinates(place) {
+  function getDetailById(placeId) {
     return new Promise((resolve, reject) => {
-      const service = new window.google.maps.places.PlacesService(
-        document.createElement("div")
-      );
-      service.getDetails({ placeId: place.place_id }, (result, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          const coord = result.geometry.location.toJSON();
-          resolve(coord);
-        } else {
-          reject(
-            new Error(`Failed to get coordinates for place ID ${place_id}`)
-          );
-        }
+      const service = new window.google.maps.places.PlacesService(document.createElement("div"));
+      service.getDetails({ placeId }, (placeResult, status) => {
+        if (status !== window.google.maps.places.PlacesServiceStatus.OK)
+          return reject(status);
+
+        const { lat, lng } = placeResult.geometry.location.toJSON();
+        const distance = new google.maps.DistanceMatrixService();
+        
+        distance.getDistanceMatrix({
+            origins: [{ lat, lng }],
+            destinations: [{ lat: origin.lat, lng: origin.lng }],
+            travelMode: "DRIVING",
+          })
+          .then((response) => {
+            const locationDuration = response.rows[0].elements[0].duration || null;
+            const locationDistance = response.rows[0].elements[0].distance || null;
+            
+            resolve({
+              lat,
+              lng,
+              formatted_address: placeResult.formatted_address,
+              name: placeResult.name,
+              place_id: placeResult.place_id,
+              duration: locationDuration,
+              distance: locationDistance,
+            });
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
     });
   }
@@ -47,33 +66,18 @@ function AutoCompleteLocation({
 
     const query = event.target.value;
     const service = new window.google.maps.places.AutocompleteService();
-    service.getPlacePredictions({ input: query }, (predictions) => {
-      const placesService = new window.google.maps.places.PlacesService(
-        document.createElement("div")
-      );
-      const promises = predictions.map((prediction) => {
-        return new Promise((resolve, reject) => {
-          placesService.getDetails( { placeId: prediction.place_id }, (placeResult, status) => {
-            if (status !== window.google.maps.places.PlacesServiceStatus.OK)
-              return reject(status);
-
-            const { lat, lng } = placeResult.geometry.location.toJSON();
-            resolve({
-              lat,
-              lng,
-              description: prediction.description,
-              name: placeResult.name,
-              place_id: placeResult.place_id,
-              distance: lat,
-            });
-          });
+    service.getPlacePredictions(
+      { input: query },
+      (predictions) => {
+        const promises = predictions.map((prediction) => {
+          return getDetailById(prediction.place_id);
         });
-      });
 
-      Promise.all(promises)
-        .then((results) => onResult(results))
-        .catch((status) => console.log(status));
-    });
+        Promise.all(promises)
+          .then((results) => onResult(results))
+          .catch((status) => console.log(status));
+      }
+    );
   }
 
   if (!isLoaded) {

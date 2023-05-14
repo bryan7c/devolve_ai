@@ -44,11 +44,19 @@ function ReturnedPage({ returnedItem, googleKey }) {
   const handleSave = async () => {
     returnedItem.destino = destination;
     returnedItem.origem = origin;
+    returnedItem.valor = getDistanceValue(destination.duration);
 
     updateReturnedItem(returnedItem).then(() => {
       router.back();
     });
   };
+
+  function getDistanceValue(duration) {
+    if(duration == null) return "-";
+    const cost = duration * 0.01;
+    const formattedCost = cost > 5 ? cost : 5;
+    return formattedCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
 
   function onPlaceChanged(place) {
     setDestination(place);
@@ -86,7 +94,7 @@ function ReturnedPage({ returnedItem, googleKey }) {
         }}
       >
         <Grid container spacing={2} sx={{ minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
-          <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
+          <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} origin={origin} />
           <Grid container item xs>
             <Grid container item xs={2} spacing={2} flexDirection={"column"}>
               <Grid item xs>
@@ -97,7 +105,8 @@ function ReturnedPage({ returnedItem, googleKey }) {
                       onClick={() => setDestination(result)}
                       groupName={"returnedLoc"}
                       title={result.name}
-                      subtitle="R$14,20"
+                      subtitle={`R$ ${getDistanceValue(result.duration)}`}
+                      disabled={result.duration == null}
                     />
                   ))}
                 </LocationSearchResultContainer>

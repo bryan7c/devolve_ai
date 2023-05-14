@@ -2,14 +2,22 @@ import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { createReturnedItem, updateReturnedItem } from "@/src/services/ReturnedService";
-import { Button, Grid, Paper } from "@mui/material";
+import {
+  createReturnedItem,
+} from "@/src/services/ReturnedService";
+import {
+  Button,
+  Grid,
+  InputAdornment,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
-import { LocationSearchResultContainer, LocationSearchResultItem } from "@/src/components/Autocomplete/locationResultItem";
 import { useLoadScript } from "@react-google-maps/api";
 import InputSearchLocation from "@/src/components/Autocomplete/InputSearchLocation";
 
@@ -19,55 +27,73 @@ export function getServerSideProps() {
   const googleKey = process.env.GOOGLE_MAP_KEY;
   return {
     props: {
-      googleKey
+      googleKey,
     },
   };
 }
 
 const libraries = ["places"];
 function ReturnedPage({ googleKey }) {
-  const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
-  const [results, setResults] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [destination, setDestination] = useState(null);
-  const [origin, setOrigin] = useState(null);
   const router = useRouter();
-  
+  const [returnedItemDate, setReturnedItemDate] = useState(dayjs(new Date()));
+  const [titulo, setTitulo] = useState("");
+  const [destino, setDestino] = useState(null);
+  const [endereco, setEndereco] = useState("");
+  const [origem, setOrigem] = useState(null);
+  const [status, setStatus] = useState("Aguardando");
+  const [devolvedor, setDevolvedor] = useState(null);
+  const [usuario, setUsuario] = useState("6431d68e17fb52bbee2f6268");
+  const [largura, setLargura] = useState("");
+  const [altura, setAltura] = useState("");
+  const [comprimento, setComprimento] = useState("");
+  const [peso, setPeso] = useState("");
+  const [codigo, setCodigo] = useState("");
+
   function handleSave() {
     let returnedItem = {
-      titulo: "Teste",
-      descricao: "",
+      titulo,
       dataLimite: returnedItemDate.$d,
-      destino: destination,
-      origem: origin,
-      devolvedor: "6431d14f17fb52bbee2f6243",
-      usuario: "6431d68e17fb52bbee2f6268",
-      status: "Aguardando",
-      valor: 10
-    }
-
+      destino,
+      origem,
+      devolvedor,
+      usuario,
+      status,
+      valor: getDistanceValue(destino?.duration?.value),
+      largura,
+      altura,
+      comprimento,
+      peso,
+      codigo,
+    };
+    console.log(returnedItem);
     createReturnedItem(returnedItem).then(() => {
       router.push("/");
     });
-  };
+  }
 
   function handleCancel() {
-      router.back();
-  };
+    router.back();
+  }
 
   function onPlaceChanged(place) {
-    setDestination(place);
+    if(titulo == "") setTitulo(place.name);
+    setEndereco(place?.formatted_address);
+    setDestino(place);
   }
 
-  function onResult(locationList) {
-    setLocations(locationList);
-    setResults(locationList);
-  }
+  function getDistanceValue(duration) {
+    if (duration == null) return "-";
+    const cost = duration * 0.02;
+    const formattedCost = cost > 5 ? cost : 5;
+    return parseFloat(formattedCost.toFixed(2));
+  }  
 
-  function handleReturnedDate(newDate) {
-    setReturnedItemDate(newDate);
-  }
-  
+  function formatValue(cost) {
+    return cost.toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }  
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: googleKey,
@@ -86,73 +112,179 @@ function ReturnedPage({ googleKey }) {
       <Paper
         elevation={3}
         sx={{
-          p: "1em"
+          p: "1em",
         }}
       >
-        <Grid container spacing={2} sx={{minHeight: "75vh", height: "100%" }} flexDirection={"column"}>
-          <InputSearchLocation onPlaceChanged={onPlaceChanged} isLoaded={isLoaded} onResult={onResult} />
+        <Grid
+          container
+          spacing={2}
+          sx={{ minHeight: "75vh", height: "100%" }}
+          flexDirection={"column"}
+        >
+          <InputSearchLocation
+            onPlaceChanged={onPlaceChanged}
+            isLoaded={isLoaded}
+            origin={origem}
+          />
           <Grid container item xs>
-            <Grid container item xs={3} spacing={2} flexDirection={"column"}>
-              <Grid item xs>
-                <LocationSearchResultContainer>
-                  {results.map((result) => (
-                    <LocationSearchResultItem
-                      key={result.place_id}
-                      onClick={() => setDestination(result)}
-                      groupName={"returnedLoc"}
-                      title={result.name}
-                      subtitle={result.distance}
-                    />
-                  ))}
-                </LocationSearchResultContainer>
-              </Grid>
-              <Grid item xs={"auto"}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale="pt-br"
-                >
-                  <DatePicker
-                    label="Data limite"
-                    onChange={(newDate) => handleReturnedDate(newDate)}
-                    value={returnedItemDate}
+            <Grid item xs pr={2}>
+              <Map
+                destination={destino}
+                loadScript={isLoaded}
+                originChanged={(currentLocation) => setOrigem(currentLocation)}
+              />
+            </Grid>
+            <Grid container item lg={4} md={3} sm={12} flexDirection={"column"}>
+              <Grid container item xs>
+                <Grid item xs={12}>
+                  <TextField
+                    id="returned-title"
+                    label="Título"
+                    fullWidth
+                    value={titulo}
+                    onChange={(event) => {
+                      setTitulo(event.target.value);
+                    }}
                   />
-                </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="Endereço"
+                    label="Endereço"
+                    fullWidth
+                    value={endereco}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    type="Number"
+                    fullWidth
+                    label="Largura"
+                    id="outlined-end-adornment"
+                    value={largura}
+                    onChange={(event) => {
+                      setLargura(event.target.value);
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">cm</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    type="Number"
+                    fullWidth
+                    label="Comprimento"
+                    id="outlined-end-adornment"
+                    value={comprimento}
+                    onChange={(event) => {
+                      setComprimento(event.target.value);
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">cm</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    type="Number"
+                    fullWidth
+                    label="Altura"
+                    id="outlined-end-adornment"
+                    value={altura}
+                    onChange={(event) => {
+                      setAltura(event.target.value);
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">cm</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    type="Number"
+                    fullWidth
+                    label="Peso"
+                    id="outlined-end-adornment"
+                    value={peso}
+                    onChange={(event) => {
+                      setPeso(event.target.value);
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">kg</InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    fullWidth
+                    label="Código de devolução"
+                    id="outlined-end-adornment"
+                    value={codigo}
+                    onChange={(event) => {
+                      setCodigo(event.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item lg={6}>
+                  <LocalizationProvider
+                    dateAdapter={AdapterDayjs}
+                    adapterLocale="pt-br"
+                  >
+                    <DatePicker
+                      label="Data limite"
+                      onChange={(newDate) => setReturnedItemDate(newDate)}
+                      value={returnedItemDate}
+                      sx={{ width: "100%" }}
+                      disablePast
+                    />
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography>Valor estimado: R$ {formatValue(getDistanceValue(destino?.duration?.value))}</Typography>
+                </Grid>
               </Grid>
               <Grid
                 item
                 container
-                xs={"auto"}
-                justifyContent={"space-evenly"}
+                lg={"auto"}
+                justifyContent={"flex-end"}
                 flexDirection={"row"}
-               
               >
-                <Button
-                  variant="text"
-                  size="large"
-                  color="gray"
-                  onClick={handleCancel}
-                  sx={{ flex: 1 }}
+                <Grid item lg={4} md={12}>
+                  <Button
+                    variant="text"
+                    size="large"
+                    color="gray"
+                    onClick={handleCancel}
+                    fullWidth
                   >
-                  CANCELAR
-                </Button>
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="info"
-                  onClick={handleSave}
-                  sx={{ flex: 1 }}
-                >
-                  SALVAR
-                </Button>
+                    CANCELAR
+                  </Button>
+                </Grid>
+                <Grid item lg={4} md={12}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    color="info"
+                    onClick={handleSave}
+                    fullWidth
+                  >
+                    SALVAR
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs pl={2}>
-              <Map
-                locations={locations}
-                destination={destination}
-                loadScript={isLoaded}
-                originChanged={(currentLocation) => setOrigin(currentLocation)}
-              />
             </Grid>
           </Grid>
         </Grid>

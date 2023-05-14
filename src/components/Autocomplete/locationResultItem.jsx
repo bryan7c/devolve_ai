@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 
-const LocationSearchResultItem = ({ groupName, title, subtitle, onClick = () => {} }) => {
+const LocationSearchResultItem = ({ groupName, title, subtitle, disabled, onClick = () => {} }) => {
   const uniqueId = Math.random().toString(36).substr(2, 9);
 
   return (
@@ -14,7 +14,7 @@ const LocationSearchResultItem = ({ groupName, title, subtitle, onClick = () => 
       pb={1}
     >
       <Grid item xs={"auto"}>
-        <input type="radio" id={`result-map-id-${uniqueId}`} name={groupName} />
+        <input disabled={disabled} type="radio" id={`result-map-id-${uniqueId}`} name={groupName} />
       </Grid>
       <Grid item xs minWidth={0}>
         <label htmlFor={`result-map-id-${uniqueId}`}>

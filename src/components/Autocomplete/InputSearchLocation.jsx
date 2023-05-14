@@ -11,6 +11,7 @@ function InputSearchLocation({
   isLoaded,
   onResult,
   placeHolder = "Pesquisar devolução",
+  origin,
 }) {
   return (
     <Grid container item xs={"auto"}>
@@ -25,6 +26,7 @@ function InputSearchLocation({
           onPlaceChanged={onPlaceChanged}
           isLoaded={isLoaded}
           onResult={onResult}
+          origin={origin}
         />
       </Grid>
     </Grid>
