@@ -15,7 +15,7 @@ module.exports = {
     try {
       const devolucao = new Devolucao({
         titulo,
-        valor: parseInt(valor),
+        valor: parseFloat(valor),
         dataLimite: new Date(dataISO),
         status,
         devolvedor,
@@ -23,10 +23,10 @@ module.exports = {
         origem,
         destino,
         codigo,
-        largura,
-        altura,
-        comprimento,
-        peso
+        largura: parseFloat(largura),
+        altura: parseFloat(altura),
+        comprimento: parseFloat(comprimento),
+        peso: parseFloat(peso),
       });
       const response = Devolucao.create(devolucao);
 
