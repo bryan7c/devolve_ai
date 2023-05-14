@@ -99,18 +99,16 @@ function ReturnedPage() {
   const handleStatusFilter = (status) => {
     if (statusFilter === status) {
       setStatusFilter("");
-      // Se o valor de pesquisa estiver vazio, exiba todas as devoluções
       setReturnedList(originalReturnedList);
     } else {
-      // Caso contrário, filtre as devoluções com base no valor de pesquisa
       setReturnedList(
         originalReturnedList.filter(
           (returnedItem) =>
             returnedItem.status.toLowerCase() === status.toLowerCase()
         )
       );
+      setStatusFilter(status);
     }
-    setStatusFilter(status);
   };
 
   const handleDateFilter = (date) => {

@@ -111,10 +111,10 @@ function ReturnedPage({ returnedItem, googleKey }) {
               <Typography display="inline">min</Typography>
             </Grid>
           </Grid>
-          <Grid container item xs="auto" alignContent="center">
-            {/* <Grid item>
-              <Button>ENVIAR MENSAGEM</Button>
-            </Grid> */}
+          <Grid container item xs="auto" alignContent="center" spacing={2}>
+            <Grid item>
+              <Button color="gray" onClick={router.back}>VOLTAR</Button>
+            </Grid>
             <Grid item>
               <Button variant="contained" color="warning" onClick={() => handleDeleteConfirmation(returnedItem._id)}>
                 CANCELAR ENTREGA
