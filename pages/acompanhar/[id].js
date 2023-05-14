@@ -2,12 +2,13 @@ import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography, Button, Dialog, DialogTitle, DialogContent, DialogActions, DialogContentText } from "@mui/material";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
 import { useLoadScript } from "@react-google-maps/api";
 import ProfileFeedback from "@/src/components/Profile/ProfileFeedback";
+import { deleteReturnedItem } from "@/src/services/ReturnedService";
 
 const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
 
@@ -32,9 +33,23 @@ function ReturnedPage({ returnedItem, googleKey }) {
   const [destination, setDestination] = useState(returnedItem.destino);
   const [origin, setOrigin] = useState(returnedItem.origem);
   const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const [selectedReturnedItemId, setSelectedReturnedItemId] = useState(null);
 
-  function oncancel() {
-    router.back();
+  const handleClose = () => {
+    setSelectedReturnedItemId(null);
+    setOpen(false);
+  };
+
+  const handleDeleteConfirmation = (returnedItemId) => {
+    setSelectedReturnedItemId(returnedItemId);
+    setOpen(true);
+  };
+
+  const handleDelete = () => {
+    deleteReturnedItem(selectedReturnedItemId).then(() => {
+      router.back();
+    });
   };
 
   const { isLoaded } = useLoadScript({
@@ -97,17 +112,39 @@ function ReturnedPage({ returnedItem, googleKey }) {
             </Grid>
           </Grid>
           <Grid container item xs="auto" alignContent="center">
-            <Grid item>
+            {/* <Grid item>
               <Button>ENVIAR MENSAGEM</Button>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <Button variant="contained" color="warning">
+              <Button variant="contained" color="warning" onClick={() => handleDeleteConfirmation(returnedItem._id)}>
                 CANCELAR ENTREGA
               </Button>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Deletar devolução?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Tem certeza que deseja excluir este item?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button onClick={handleDelete} autoFocus>
+            Deletar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }

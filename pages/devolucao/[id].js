@@ -1,23 +1,9 @@
-import { useState } from "react";
 import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
 import { updateReturnedItem } from "@/src/services/ReturnedService";
-import { Button, Grid, Paper } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
-import dynamic from "next/dynamic";
-import {
-  LocationSearchResultContainer,
-  LocationSearchResultItem,
-} from "@/src/components/Autocomplete/locationResultItem";
-import { useLoadScript } from "@react-google-maps/api";
-import InputSearchLocation from "@/src/components/Autocomplete/InputSearchLocation";
 import ReturnedPage from "./returnedPage";
-
-const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
 
 export async function getServerSideProps({ query }) {
   const id = query.id.toString();
@@ -34,7 +20,6 @@ export async function getServerSideProps({ query }) {
   };
 }
 
-const libraries = ["places"];
 function EditReturnedPage({ returnedItem, googleKey }) {
   const router = useRouter();
 

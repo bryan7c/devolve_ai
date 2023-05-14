@@ -27,10 +27,6 @@
   "dataLimite": {
     "$date": "2023-05-15T14:54:45.000Z"
   },
-  "largura": 3,
-  "altura": 4,
-  "comprimento": 3,
-  "peso": 54,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -65,10 +61,6 @@
   "dataLimite": {
     "$date": "2023-05-14T15:09:33.444Z"
   },
-  "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -103,10 +95,6 @@
   "dataLimite": {
     "$date": "2023-05-14T15:17:24.493Z"
   },
-    "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -141,10 +129,6 @@
   "dataLimite": {
     "$date": "2023-05-04T15:17:55.000Z"
   },
-    "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -179,10 +163,6 @@
   "dataLimite": {
     "$date": "2023-05-27T15:19:52.000Z"
   },
-  "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -217,10 +197,6 @@
   "dataLimite": {
     "$date": "2023-05-30T15:22:28.000Z"
   },
-    "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -255,10 +231,6 @@
   "dataLimite": {
     "$date": "2023-05-24T15:22:59.000Z"
   },
-    "largura": 34,
-  "altura": 43,
-  "comprimento": 3,
-  "peso": 433,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"
@@ -298,6 +270,84 @@
   "altura": 43,
   "comprimento": 3,
   "peso": 433,
+  "devolvedor": null,
+  "usuario": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64612224a2003aee82dc9b2f"
+  },
+  "titulo": "Nova Vale Tudo",
+  "origem": {
+    "lat": -23.047889,
+    "lng": -45.5772407
+  },
+  "destino": {
+    "lat": -23.0280299,
+    "lng": -45.5549192,
+    "formatted_address": "R. Dr. Jorge Winther, 74 - Centro, Taubaté - SP, 12010-150, Brasil",
+    "name": "Nova Vale Tudo",
+    "place_id": "ChIJBd8QOQX5zJQRtCem0fsBOGs",
+    "duration": {
+      "text": "11 minutos",
+      "value": 641
+    },
+    "distance": {
+      "text": "4,7 km",
+      "value": 4660
+    }
+  },
+  "status": "Aguardando",
+  "valor": 12.82,
+  "dataLimite": {
+    "$date": "2023-05-14T18:01:21.107Z"
+  },
+  "codigo": "3234234",
+  "largura": 34,
+  "altura": 3,
+  "comprimento": 34,
+  "peso": 0.57,
+  "devolvedor": null,
+  "usuario": {
+    "$oid": "6431d68e17fb52bbee2f6268"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64612257a2003aee82dc9b31"
+  },
+  "titulo": "Leroy",
+  "origem": {
+    "lat": -23.0478905,
+    "lng": -45.5772146
+  },
+  "destino": {
+    "lat": -23.0280299,
+    "lng": -45.5549192,
+    "formatted_address": "R. Dr. Jorge Winther, 74 - Centro, Taubaté - SP, 12010-150, Brasil",
+    "name": "Nova Vale Tudo",
+    "place_id": "ChIJBd8QOQX5zJQRtCem0fsBOGs",
+    "duration": {
+      "text": "11 minutos",
+      "value": 641
+    },
+    "distance": {
+      "text": "4,7 km",
+      "value": 4660
+    }
+  },
+  "status": "Aguardando",
+  "valor": 12.82,
+  "dataLimite": {
+    "$date": "2023-05-14T18:33:14.372Z"
+  },
+  "codigo": "234234",
+  "largura": 34,
+  "altura": 43,
+  "comprimento": 3,
+  "peso": 43,
   "devolvedor": null,
   "usuario": {
     "$oid": "6431d68e17fb52bbee2f6268"

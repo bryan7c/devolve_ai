@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Head from "next/head";
 import { InternalLayout } from "@/src/layout/internalLayout";
 import { useRouter } from "next/router";
 import {
