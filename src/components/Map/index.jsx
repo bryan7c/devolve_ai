@@ -7,6 +7,7 @@ function Map({
   destination,
   loadScript,
   originChanged = () => {},
+  destinationChanged = () => {},
 }) {
   const [origin, setOrigin] = useState(null);
   const [directions, setDirections] = useState(null);
@@ -94,6 +95,7 @@ function Map({
               <Marker
                 key={index}
                 position={{ lat: location.lat, lng: location.lng }}
+                onClick={() => destinationChanged(location)}
               />
             ))}
           {!destination && origin && <Marker position={{ lat: origin.lat, lng: origin.lng }} />}

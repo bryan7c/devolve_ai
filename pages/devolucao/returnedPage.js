@@ -16,6 +16,7 @@ import "dayjs/locale/pt-br";
 import dynamic from "next/dynamic";
 import { useLoadScript } from "@react-google-maps/api";
 import InputSearchLocation from "@/src/components/Autocomplete/InputSearchLocation";
+import { LocationSearchResultContainer, LocationSearchResultItem } from "@/src/components/Autocomplete/locationResultItem";
 
 const Map = dynamic(() => import("@/src/components/Map/index"), { ssr: false });
 
@@ -45,6 +46,8 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
   const [peso, setPeso] = useState(returnedItem?.peso ?? "");
   const [codigo, setCodigo] = useState(returnedItem?.codigo ?? "");
   const [nota, setNota] = useState(returnedItem?.nota ?? null);
+  const [locations, setLocations] = useState([]);
+  const [results, setResults] = useState([]);
   
   function handleSave() {
     let returnedObject = {
@@ -74,6 +77,13 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
     if (titulo == "") setTitulo(place.name);
     setEndereco(place?.formatted_address);
     setDestino(place);
+    setResults([]);
+  }
+  
+  function onResult(locationList) {
+    setDestino(null);
+    setLocations(locationList);
+    setResults(locationList);
   }
 
   function getDistanceValue(duration) {
@@ -112,15 +122,33 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
         <InputSearchLocation
           onPlaceChanged={onPlaceChanged}
           isLoaded={isLoaded}
+          onResult={onResult}
           origin={origem}
         />
         <Grid container item xs>
+          {results.length > 0 && (
+          <Grid item xs={2} pr={2}>
+            <LocationSearchResultContainer>
+              {results.map((result) => (
+                <LocationSearchResultItem
+                  key={result.place_id}
+                  onClick={() => onPlaceChanged(result)}
+                  groupName={"returnedLoc"}
+                  title={result.name}
+                  subtitle={`R$ ${formatValue(getDistanceValue(result?.duration?.value))}`}
+                />
+              ))}
+            </LocationSearchResultContainer>
+          </Grid>
+          )}
           <Grid item xs pr={2}>
             <Map
+              locations={locations}
               destination={destino}
               loadScript={isLoaded}
               manualOrigin={origem}
               originChanged={(currentLocation) => setOrigem(currentLocation)}
+              destinationChanged={(currentLocation) => onPlaceChanged(currentLocation)}
             />
           </Grid>
           <Grid container item lg={4} md={3} sm={12} flexDirection={"column"}>
@@ -242,8 +270,7 @@ function ReturnedPage({ googleKey, returnedItem = null, onSave = () => {} }) {
               </Grid>
               <Grid item xs={12}>
                 <Typography>
-                  Valor estimado: R${" "}
-                  {formatValue(getDistanceValue(destino?.duration?.value))}
+                  Valor estimado: R$ {formatValue(getDistanceValue(destino?.duration?.value))}
                 </Typography>
               </Grid>
             </Grid>
